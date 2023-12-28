@@ -1,2 +1,2 @@
 # reading-list
-This a CRUD project to enable users to manage their own reading lists
+This is a CRUD project allowing users to manage their reading lists.
