@@ -1,8 +1,8 @@
-DROP SCHEMA IF EXISTS `Reading-List-App-01`;
+DROP SCHEMA IF EXISTS `Reading-List-App-04`;
 
-CREATE SCHEMA `Reading-List-App-01`;
+CREATE SCHEMA `Reading-List-App-05`;
 
-use `Reading-List-App-01`;
+use `Reading-List-App-05`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -20,8 +20,8 @@ CREATE TABLE `book` (
   `author_id` int NOT NULL,
   `rating` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_DETAIL_idx` (`author_id`),
-  CONSTRAINT `FK_DETAIL` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_AUTHOR_idx` (`author_id`),
+  CONSTRAINT `FK_AUTHOR` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `book_author` (
@@ -29,12 +29,12 @@ CREATE TABLE `book_author` (
   `author_id` int NOT NULL,
   PRIMARY KEY (`book_id`, `author_id` ),
   KEY `author_idx` (`author_id`),
-  
-  CONSTRAINT `FK_BOOK` FOREIGN KEY (`book_id`) 
-  REFERENCES `course` (`id`) 
+
+  CONSTRAINT `FK_BOOK` FOREIGN KEY (`book_id`)
+  REFERENCES `course` (`id`)
   ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  CONSTRAINT `FK_AUTHOR` FOREIGN KEY (`author_id`) 
+
+  CONSTRAINT `FK_AUTHOR_X` FOREIGN KEY (`author_id`)
   REFERENCES `author` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -60,7 +60,14 @@ CREATE TABLE `user` (
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `review_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+
+  KEY `FK_REVIEW_idx` (`review_id`),
+  CONSTRAINT `FK_REVIEW`
+  FOREIGN KEY (`review_id`)
+  REFERENCES `review` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `category` (
