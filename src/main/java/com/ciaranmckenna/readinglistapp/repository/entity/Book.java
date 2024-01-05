@@ -17,9 +17,9 @@ public class Book {
     @Column(name = "id")
     private int id;
     @Column(name = "title")
-    private String authorId;
+    private String title;
     @Column(name = "author_id")
-    private String lastName;
+    private String authorId;
     @Column(name = "rating")
     private String rating;
 }
