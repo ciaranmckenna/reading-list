@@ -18,7 +18,5 @@ public class Review {
     private int id;
     @Column(name = "comment")
     private String comment;
-    @Column(name = "book_id")
-    private String bookId;
 
 }
