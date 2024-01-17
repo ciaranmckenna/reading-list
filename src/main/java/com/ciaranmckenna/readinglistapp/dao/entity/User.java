@@ -1,4 +1,4 @@
-package com.ciaranmckenna.readinglistapp.repository.entity;
+package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "user")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
@@ -22,4 +21,10 @@ public class User {
     private String lastName;
     @Column(name = "email")
     private String email;
+
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 }
