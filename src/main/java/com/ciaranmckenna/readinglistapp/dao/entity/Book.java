@@ -1,17 +1,15 @@
-package com.ciaranmckenna.readinglistapp.repository.entity;
+package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
 @Entity
 @Table(name = "book")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Book {
 
@@ -23,15 +21,15 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "rating")
-    private String rating;
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
                             CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
-    private List<Review> reviews;
+    @Column(name = "category")
+    private String category;
+
+    public Book(String title) {
+        this.title = title;
+    }
 }

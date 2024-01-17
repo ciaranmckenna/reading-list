@@ -1,4 +1,4 @@
-package com.ciaranmckenna.readinglistapp.repository.entity;
+package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,16 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "category")
+@Table(name = "review")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "comment")
+    private String comment;
+
+    public Review(String comment) {
+        this.comment = comment;
+    }
 }
