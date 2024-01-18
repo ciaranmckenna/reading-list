@@ -17,7 +17,7 @@
 
   <p class="h4 mb-4">Save Author</p>
 
-  <form action="#" th:action="@{/author/addAuthor}"
+  <form action="#" th:action="@{/author/add}"
         th:object="${author}" method="POST">
 
     <input type="text" th:field="*{firstName}"

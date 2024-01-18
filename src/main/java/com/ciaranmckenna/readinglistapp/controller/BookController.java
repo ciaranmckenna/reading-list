@@ -37,7 +37,7 @@ public class BookController {
         return "books/list-books";
     }
 
-    @GetMapping("showFormForAdd")
+    @GetMapping("registration")
     public String showFormForAdd(Model model){
         Book book = new Book();
         model.addAttribute("book", book);
