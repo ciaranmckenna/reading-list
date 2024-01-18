@@ -1,15 +1,13 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
+import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.model.AuthorModel;
 import com.ciaranmckenna.readinglistapp.model.BookModel;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +26,19 @@ public class AuthorController {
 
         List<AuthorModel> authorModelList = readingListService.findAllAuthors();
 
-        model.addAttribute("authors", authorModelList);
+        model.addAttribute("author", authorModelList);
 
+        return "authors/list-authors";
+    }
+
+    @GetMapping("{id}")
+    public String findAuthorById(@PathVariable int id, Model model) throws NotFoundException {
+
+        Author authorById = readingListService.findAuthorById(id);
+
+        if (authorById != null){
+            model.addAttribute("author", authorById);
+        }
         return "authors/list-authors";
     }
 
@@ -44,8 +53,8 @@ public class AuthorController {
     }
 
     @PostMapping("add")
-    public String addAuthor(String firstName, String lastName, String citizenship){
-        readingListService.addAuthor(firstName, lastName, citizenship);
+    public String addAuthor(String firstName, String lastName){
+        readingListService.addAuthor(firstName, lastName);
         return "redirect:/author/list";
     }
 

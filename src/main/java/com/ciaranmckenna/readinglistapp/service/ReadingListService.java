@@ -12,7 +12,7 @@ public interface ReadingListService {
 
     List<BookModel> findAllBooks();
 
-    Book findById(int id) throws NotFoundException;
+    Book findBookById(int id) throws NotFoundException;
 
     BookModel getBookDetails(int id) throws NotFoundException;
 
@@ -20,5 +20,9 @@ public interface ReadingListService {
 
     List<AuthorModel> findAllAuthors();
 
-    Author addAuthor(String firstName, String lastName, String citizenship);
+    Author findAuthorById(int id) throws NotFoundException;
+
+    AuthorModel getAuthorDetails(int id) throws NotFoundException;
+
+    Author addAuthor(String firstName, String lastName);
 }

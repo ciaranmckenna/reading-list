@@ -40,14 +40,14 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public Book findById(int id) throws NotFoundException {
-        Optional<Book> optionalBook = bookRepository.findById(id);
-        return optionalBook.orElseThrow(() -> new NotFoundException("No book found"));
+    public Book findBookById(int id) throws NotFoundException {
+        Optional<Book> optionalBookId = bookRepository.findById(id);
+        return optionalBookId.orElseThrow(() -> new NotFoundException("No book id found"));
     }
 
     @Override
     public BookModel getBookDetails(int id) throws NotFoundException {
-        Book book = findById(id);
+        Book book = findBookById(id);
 
         if (book!=null) {
             return new BookModel(
@@ -60,44 +60,44 @@ public class ReadingListServiceImplementation implements ReadingListService{
         }
     }
 
-
     @Override
     public Book addBook(Book book) {
-
-//        Book book = new Book();
-//        book.setTitle(title);
-//
-//        //Author author = new Author(authorFirstName, authorLastName);
-//        Author author = new Author();
-//
-//        book.setAuthor(author);
-//
-//        return bookRepository.save(book);
-
         return bookRepository.save(book);
     }
 
     @Override
     public List<AuthorModel> findAllAuthors() {
         List<Author> authorList = authorRepository.findAll();
-        AuthorDetail authorDetail = new AuthorDetail();
 
         return authorList.stream()
                 .map(author -> new AuthorModel(author.getFirstName(), author.getLastName())).toList();
     }
 
     @Override
-    public Author addAuthor(String firstName, String lastName, String citizenship) {
+    public Author findAuthorById(int id) throws NotFoundException {
+        Optional<Author> optionalAuthorId = authorRepository.findById(id);
+        return optionalAuthorId.orElseThrow(() -> new NotFoundException("No author id found"));
+    }
+
+    @Override
+    public AuthorModel getAuthorDetails(int id) throws NotFoundException {
+        Author author = findAuthorById(id);
+        if (author != null) {
+            return new AuthorModel(
+                    author.getFirstName(),
+                    author.getLastName()
+            );
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Author addAuthor(String firstName, String lastName) {
 
         Author author = new Author();
         author.setFirstName(firstName);
         author.setLastName(lastName);
-
-        AuthorDetail authorDetail = new AuthorDetail();
-        authorDetail.setCitizenship(citizenship);
-
-        // associate the objects
-        //author.setAuthorDetail(authorDetail);
 
         return authorRepository.save(author);
 
