@@ -33,7 +33,7 @@ public class AuthorController {
         return "authors/list-authors";
     }
 
-    @GetMapping("showFormForAdd")
+    @GetMapping("registration")
     public String showFormForAdd(Model model){
 
         Author author = new Author();
@@ -43,7 +43,7 @@ public class AuthorController {
         return "authors/author-form";
     }
 
-    @PostMapping("addAuthor")
+    @PostMapping("add")
     public String addAuthor(String firstName, String lastName, String citizenship){
         readingListService.addAuthor(firstName, lastName, citizenship);
         return "redirect:/author/list";
