@@ -13,7 +13,6 @@ public class AuthorModel {
     private String firstName;
     private String lastName;
 
-    // missing author detail field because it keeps returning null
     public AuthorModel(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
