@@ -46,6 +46,22 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
+    public List<BookModel> findBookByTitle(String title) {
+        List<Book> bookListTitle = bookRepository.findBytitle(title);
+        List<BookModel> bookModelList = new ArrayList<>();
+
+        for (Book book : bookListTitle) {
+            BookModel bookModel = new BookModel(
+                    book.getTitle(),
+                    book.getAuthor().getFirstName(),
+                    book.getAuthor().getLastName()
+            );
+            bookModelList.add(bookModel);
+        }
+        return bookModelList;
+    }
+
+    @Override
     public BookModel getBookDetails(int id) throws NotFoundException {
         Book book = findBookById(id);
 
@@ -59,6 +75,8 @@ public class ReadingListServiceImplementation implements ReadingListService{
             return null;
         }
     }
+
+
 
     @Override
     public Book addBook(Book book) {

@@ -14,6 +14,8 @@ public interface ReadingListService {
 
     Book findBookById(int id) throws NotFoundException;
 
+    List<BookModel> findBookByTitle(String title);
+
     BookModel getBookDetails(int id) throws NotFoundException;
 
     Book addBook(Book book);
