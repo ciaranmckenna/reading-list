@@ -2,7 +2,8 @@
 
 This is a simple Reading List application developed using Java 17 and MySQL database. The application allows you to manage a list of books, including their titles and authors.
 
-Prerequisites
+# Prerequisites
+
 Before you get started, ensure that you have the following installed on your system:
 
 Java 17 or later:  java --version
