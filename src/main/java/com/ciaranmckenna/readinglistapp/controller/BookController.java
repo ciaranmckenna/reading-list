@@ -37,6 +37,21 @@ public class BookController {
         return "books/list-books";
     }
 
+    @GetMapping("search")
+    public String showFormForSearch(Model model){
+        Book book = new Book();
+        model.addAttribute("book", book);
+        return "books/book-search";
+    }
+
+    @GetMapping("title")
+    public String getBookByTitle(@RequestParam String title, Model model){
+        List<BookModel> bookByTitle = readingListService.findBookByTitle(title);
+
+        model.addAttribute("book", bookByTitle);
+        return "books/list-books";
+    }
+
     @GetMapping("registration")
     public String showFormForAdd(Model model){
         Book book = new Book();
