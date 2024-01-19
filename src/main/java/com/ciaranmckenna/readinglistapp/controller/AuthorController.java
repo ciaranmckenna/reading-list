@@ -23,19 +23,14 @@ public class AuthorController {
 
     @GetMapping("list")
     public String findAllAuthors(Model model){
-
         List<AuthorModel> authorModelList = readingListService.findAllAuthors();
-
         model.addAttribute("author", authorModelList);
-
         return "authors/list-authors";
     }
 
     @GetMapping("{id}")
     public String findAuthorById(@PathVariable int id, Model model) throws NotFoundException {
-
         Author authorById = readingListService.findAuthorById(id);
-
         if (authorById != null){
             model.addAttribute("author", authorById);
         }
@@ -44,11 +39,8 @@ public class AuthorController {
 
     @GetMapping("registration")
     public String showFormForAdd(Model model){
-
         Author author = new Author();
-
         model.addAttribute("author", author);
-
         return "authors/author-form";
     }
 
@@ -57,6 +49,5 @@ public class AuthorController {
         readingListService.addAuthor(firstName, lastName);
         return "redirect:/author/list";
     }
-
 
 }

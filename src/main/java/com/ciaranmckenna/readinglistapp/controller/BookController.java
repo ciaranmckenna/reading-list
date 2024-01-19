@@ -30,7 +30,6 @@ public class BookController {
     @GetMapping("{id}")
     public String getBookDetails(@PathVariable int id, Model model) throws NotFoundException {
         BookModel bookModel = readingListService.getBookDetails(id);
-
         if (bookModel != null) {
             model.addAttribute("book", bookModel);
         }
@@ -47,7 +46,6 @@ public class BookController {
     @GetMapping("title")
     public String getBookByTitle(@RequestParam String title, Model model){
         List<BookModel> bookByTitle = readingListService.findBookByTitle(title);
-
         model.addAttribute("book", bookByTitle);
         return "books/list-books";
     }
