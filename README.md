@@ -5,10 +5,10 @@ This is a simple Reading List application developed using Java 17 and MySQL data
 ## Table Of Content
 
 - [Prerequisites](#Prerequisites)
-- [Getting Started](#Getting Started)
-    - [Clone from Github](#Clone from Github)
-    - [Run in IDE (IntelliJ)](#Run in IDE (IntelliJ))
-    - [Run from CLI](#Run from CLI)
+- [Getting Started](#Getting-Started)
+    - [Clone from GitHub](#Clone-from-GitHub)
+    - [Run in IDE (IntelliJ)](#Run-in-IDE (IntelliJ))
+    - [Run from CLI](#Run-from-CLI)
 - [Usage](#Usage)
     - [Access](#Access)
 
@@ -28,9 +28,9 @@ https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-# Clone from Github
+# Clone from GitHub
 
-https://github.com/ciaranmckenna/reading-list.git
+```git clone https://github.com/ciaranmckenna/reading-list.git```
 
 # Run in IDE (IntelliJ)
 
