@@ -5,9 +5,9 @@ This is a simple Reading List application developed using Java 17 and MySQL data
 ## Table Of Content
 
 - [Prerequisites](#Prerequisites)
-- [Getting Started](#Getting-Started)
+- [Getting Started](#Getting-Started-🚀)
     - [Clone from GitHub](#Clone-from-GitHub)
-    - [Run in IDE (IntelliJ)](#Run-in-IDE (IntelliJ))
+    - [Run in IDE (IntelliJ)](#Run-in-IDE-(IntelliJ))
     - [Run from CLI](#Run-from-CLI)
 - [Usage](#Usage)
     - [Access](#Access)
