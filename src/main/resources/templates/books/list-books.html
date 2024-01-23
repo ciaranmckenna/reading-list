@@ -32,6 +32,7 @@
                 <th>Title</th>
                 <th>Author First Name</th>
                 <th>Author Last Name</th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -40,16 +41,23 @@
             <td th:text="${tempBook.title}" />
             <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }" />
             <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }" />
+            <!--add update button link-->
+            <td>
+                <a th:if="${tempBook.id != null}" th:href="@{/book/update/{bookId}(bookId=${tempBook.id})}"
+                   class="btn btn-info btn-sm">
+                    Update
+                </a>
 
+                <!-- Add this line to print the ID for debugging -->
+                <p th:text="${tempBook.id}"></p>
+
+            </td>
         </tr>
         <tr th:unless="${book != null}">
             <td colspan="3">Book not found</td>
         </tr>
         </tbody>
     </table>
-
-    <!-- Add a link to go back to the list of books -->
-    <a th:href="@{/book/list}">Back to Book List</a>
 
 </div>
 </body>

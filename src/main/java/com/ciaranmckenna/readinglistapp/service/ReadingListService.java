@@ -20,6 +20,8 @@ public interface ReadingListService {
 
     Book addBook(Book book);
 
+    void deleteBookById(int id);
+
     List<AuthorModel> findAllAuthors();
 
     Author findAuthorById(int id) throws NotFoundException;

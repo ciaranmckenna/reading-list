@@ -7,6 +7,7 @@ import com.ciaranmckenna.readinglistapp.service.ReadingListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -62,4 +63,27 @@ public class BookController {
         readingListService.addBook(book);
         return "redirect:/book/list";
     }
+
+    @GetMapping("update/{bookId}")
+    public String updateBook(@PathVariable("bookId") int id, Model model) throws NotFoundException {
+        Book bookById = readingListService.findBookById(id);
+        model.addAttribute("book", bookById);
+        return "books/book-form";
+    }
+
+    @DeleteMapping("delete/{id}")
+    public String deleteBook(@PathVariable int id){
+        readingListService.deleteBookById(id);
+        return "list-books";
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFoundException(NotFoundException ex) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("error", ex.getMessage());
+        modelAndView.setViewName("error-page"); // Create a custom error page
+        return modelAndView;
+    }
+
+
 }
