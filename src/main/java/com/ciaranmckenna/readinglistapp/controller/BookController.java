@@ -71,10 +71,10 @@ public class BookController {
         return "books/book-form";
     }
 
-    @DeleteMapping("delete/{id}")
-    public String deleteBook(@PathVariable int id){
+    @GetMapping("delete/{bookId}")
+    public String deleteBook(@PathVariable("bookId") int id){
         readingListService.deleteBookById(id);
-        return "list-books";
+        return "redirect:/book/list";
     }
 
     @ExceptionHandler(NotFoundException.class)
