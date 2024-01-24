@@ -2,8 +2,7 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
-import com.ciaranmckenna.readinglistapp.model.AuthorModel;
-import com.ciaranmckenna.readinglistapp.model.BookModel;
+import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +22,8 @@ public class AuthorController {
 
     @GetMapping("list")
     public String findAllAuthors(Model model){
-        List<AuthorModel> authorModelList = readingListService.findAllAuthors();
-        model.addAttribute("author", authorModelList);
+        List<AuthorRecord> authorRecordList = readingListService.findAllAuthors();
+        model.addAttribute("author", authorRecordList);
         return "authors/list-authors";
     }
 

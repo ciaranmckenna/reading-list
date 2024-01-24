@@ -3,30 +3,30 @@ package com.ciaranmckenna.readinglistapp.service;
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
-import com.ciaranmckenna.readinglistapp.model.AuthorModel;
-import com.ciaranmckenna.readinglistapp.model.BookModel;
+import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
+import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 
 import java.util.List;
 
 public interface ReadingListService {
 
-    List<BookModel> findAllBooks();
+    List<BookRecord> findAllBooks();
 
     Book findBookById(int id) throws NotFoundException;
 
-    List<BookModel> findBookByTitle(String title);
+    List<BookRecord> findBookByTitle(String title);
 
-    BookModel getBookDetails(int id) throws NotFoundException;
+    BookRecord getBookDetails(int id) throws NotFoundException;
 
     Book addBook(Book book);
 
     void deleteBookById(int id);
 
-    List<AuthorModel> findAllAuthors();
+    List<AuthorRecord> findAllAuthors();
 
     Author findAuthorById(int id) throws NotFoundException;
 
-    AuthorModel getAuthorDetails(int id) throws NotFoundException;
+    AuthorRecord getAuthorDetails(int id) throws NotFoundException;
 
     Author addAuthor(String firstName, String lastName);
 }
