@@ -47,6 +47,9 @@ public class BookController {
     @GetMapping("title")
     public String getBookByTitle(@RequestParam String title, Model model){
         List<BookRecord> bookByTitle = readingListService.findBookByTitle(title);
+        if (bookByTitle.isEmpty()){
+            return "books/error-list-books";
+        }
         model.addAttribute("book", bookByTitle);
         return "books/list-books";
     }
