@@ -18,6 +18,9 @@
       <form action="#" th:action="@{/book/add}"
                         th:object="${book}" method="POST">
 
+        <!--Adding hidden form field to handle the update-->
+        <input type="hidden" th:field="*{id}"/>
+
         <input type="text" th:field="*{title}"
                 class="form-control mb4 w-25" placeholder="Title">
 

@@ -32,24 +32,33 @@
                 <th>Title</th>
                 <th>Author First Name</th>
                 <th>Author Last Name</th>
+                <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
         <tr th:each="tempBook : ${book}">
-            <td th:text="${tempBook.title}" />
-            <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }" />
-            <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }" />
-
+            <td th:text="${tempBook.title}"></td>
+            <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }"></td>
+            <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }"></td>
+            <!--add update button link-->
+            <td>
+                <a th:if="${tempBook.id != null}" th:href="@{/book/update/{bookId}(bookId=${tempBook.id})}"
+                   class="btn btn-primary btn-sm mb-3">
+                    Update
+                </a>
+                <a th:if="${tempBook.id != null}" th:href="@{/book/delete/{bookId}(bookId=${tempBook.id})}"
+                   class="btn btn-danger btn-sm mb-3"
+                    onclick="if(!(confirm('Are you sure you want to delete this book?))) return false">
+                    Delete
+                </a>
+            </td>
         </tr>
         <tr th:unless="${book != null}">
             <td colspan="3">Book not found</td>
         </tr>
         </tbody>
     </table>
-
-    <!-- Add a link to go back to the list of books -->
-    <a th:href="@{/book/list}">Back to Book List</a>
 
 </div>
 </body>

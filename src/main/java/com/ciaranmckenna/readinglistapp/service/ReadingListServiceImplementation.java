@@ -1,7 +1,6 @@
 package com.ciaranmckenna.readinglistapp.service;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
-import com.ciaranmckenna.readinglistapp.dao.entity.AuthorDetail;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
@@ -33,7 +32,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
         List<BookModel> bookModelList = new ArrayList<>();
 
         for (Book book: bookList) {
-            BookModel bookModel = new BookModel(book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            BookModel bookModel = new BookModel(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
             bookModelList.add(bookModel);
         }
         return bookModelList;
@@ -76,11 +75,14 @@ public class ReadingListServiceImplementation implements ReadingListService{
         }
     }
 
-
-
     @Override
     public Book addBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    @Override
+    public void deleteBookById(int id) {
+        bookRepository.deleteById(id);
     }
 
     @Override
