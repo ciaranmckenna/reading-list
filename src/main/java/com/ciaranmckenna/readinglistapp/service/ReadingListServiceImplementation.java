@@ -5,8 +5,8 @@ import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
-import com.ciaranmckenna.readinglistapp.model.AuthorModel;
-import com.ciaranmckenna.readinglistapp.model.BookModel;
+import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
+import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,17 +25,17 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public List<BookModel> findAllBooks(){
+    public List<BookRecord> findAllBooks(){
 
         List<Book> bookList = bookRepository.findAll();
 
-        List<BookModel> bookModelList = new ArrayList<>();
+        List<BookRecord> bookRecordList = new ArrayList<>();
 
         for (Book book: bookList) {
-            BookModel bookModel = new BookModel(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
-            bookModelList.add(bookModel);
+            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            bookRecordList.add(bookRecord);
         }
-        return bookModelList;
+        return bookRecordList;
     }
 
     @Override
@@ -45,27 +45,29 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public List<BookModel> findBookByTitle(String title) {
+    public List<BookRecord> findBookByTitle(String title) {
         List<Book> bookListTitle = bookRepository.findBytitle(title);
-        List<BookModel> bookModelList = new ArrayList<>();
+        List<BookRecord> bookRecordList = new ArrayList<>();
 
         for (Book book : bookListTitle) {
-            BookModel bookModel = new BookModel(
+            BookRecord bookRecord = new BookRecord(
+                    book.getId(),
                     book.getTitle(),
                     book.getAuthor().getFirstName(),
                     book.getAuthor().getLastName()
             );
-            bookModelList.add(bookModel);
+            bookRecordList.add(bookRecord);
         }
-        return bookModelList;
+        return bookRecordList;
     }
 
     @Override
-    public BookModel getBookDetails(int id) throws NotFoundException {
+    public BookRecord getBookDetails(int id) throws NotFoundException {
         Book book = findBookById(id);
 
         if (book!=null) {
-            return new BookModel(
+            return new BookRecord(
+                    book.getId(),
                     book.getTitle(),
                     book.getAuthor().getFirstName(),
                     book.getAuthor().getLastName()
@@ -86,11 +88,11 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public List<AuthorModel> findAllAuthors() {
+    public List<AuthorRecord> findAllAuthors() {
         List<Author> authorList = authorRepository.findAll();
 
         return authorList.stream()
-                .map(author -> new AuthorModel(author.getFirstName(), author.getLastName())).toList();
+                .map(author -> new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName())).toList();
     }
 
     @Override
@@ -100,10 +102,11 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public AuthorModel getAuthorDetails(int id) throws NotFoundException {
+    public AuthorRecord getAuthorDetails(int id) throws NotFoundException {
         Author author = findAuthorById(id);
         if (author != null) {
-            return new AuthorModel(
+            return new AuthorRecord(
+                    author.getId(),
                     author.getFirstName(),
                     author.getLastName()
             );

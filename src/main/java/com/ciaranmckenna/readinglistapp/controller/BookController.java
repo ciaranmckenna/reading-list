@@ -2,7 +2,7 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
-import com.ciaranmckenna.readinglistapp.model.BookModel;
+import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,16 +23,16 @@ public class BookController {
 
     @GetMapping("list")
     public String findAllBooks(Model model){
-        List<BookModel> bookModelList = readingListService.findAllBooks();
-        model.addAttribute("book", bookModelList);
+        List<BookRecord> bookRecordList = readingListService.findAllBooks();
+        model.addAttribute("book", bookRecordList);
         return "books/list-books";
     }
 
     @GetMapping("{id}")
     public String getBookDetails(@PathVariable int id, Model model) throws NotFoundException {
-        BookModel bookModel = readingListService.getBookDetails(id);
-        if (bookModel != null) {
-            model.addAttribute("book", bookModel);
+        BookRecord bookRecord = readingListService.getBookDetails(id);
+        if (bookRecord != null) {
+            model.addAttribute("book", bookRecord);
         }
         return "books/list-books";
     }
@@ -46,7 +46,7 @@ public class BookController {
 
     @GetMapping("title")
     public String getBookByTitle(@RequestParam String title, Model model){
-        List<BookModel> bookByTitle = readingListService.findBookByTitle(title);
+        List<BookRecord> bookByTitle = readingListService.findBookByTitle(title);
         model.addAttribute("book", bookByTitle);
         return "books/list-books";
     }
