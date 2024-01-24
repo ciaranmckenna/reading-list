@@ -32,7 +32,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
         List<BookModel> bookModelList = new ArrayList<>();
 
         for (Book book: bookList) {
-            BookModel bookModel = new BookModel(book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            BookModel bookModel = new BookModel(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
             bookModelList.add(bookModel);
         }
         return bookModelList;

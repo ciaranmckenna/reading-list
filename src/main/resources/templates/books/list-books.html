@@ -38,19 +38,15 @@
 
         <tbody>
         <tr th:each="tempBook : ${book}">
-            <td th:text="${tempBook.title}" />
-            <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }" />
-            <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }" />
+            <td th:text="${tempBook.title}"></td>
+            <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }"></td>
+            <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }"></td>
             <!--add update button link-->
             <td>
                 <a th:if="${tempBook.id != null}" th:href="@{/book/update/{bookId}(bookId=${tempBook.id})}"
-                   class="btn btn-info btn-sm">
+                   class="btn btn-primary btn-sm mb-3">
                     Update
                 </a>
-
-                <!-- Add this line to print the ID for debugging -->
-                <p th:text="${tempBook.id}"></p>
-
             </td>
         </tr>
         <tr th:unless="${book != null}">
