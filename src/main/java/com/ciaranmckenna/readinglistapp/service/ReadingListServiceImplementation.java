@@ -9,9 +9,7 @@ import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReadingListServiceImplementation implements ReadingListService{
@@ -35,6 +33,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
             BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
             bookRecordList.add(bookRecord);
         }
+        Collections.sort(bookRecordList, Comparator.comparing(BookRecord::title));
         return bookRecordList;
     }
 
