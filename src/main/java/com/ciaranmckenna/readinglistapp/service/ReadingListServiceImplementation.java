@@ -61,6 +61,18 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
+    public List<BookRecord> findByTitleContainingIgnoreCase(String title) {
+        List<Book> bookListByTitleLike = bookRepository.findByTitleContainingIgnoreCase(title);
+        List<BookRecord> bookRecordList = new ArrayList<>();
+
+        for (Book book : bookListByTitleLike) {
+            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(),book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            bookRecordList.add(bookRecord);
+        }
+        return bookRecordList;
+    }
+
+    @Override
     public BookRecord getBookDetails(int id) throws NotFoundException {
         Book book = findBookById(id);
 

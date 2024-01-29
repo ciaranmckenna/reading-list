@@ -45,13 +45,20 @@ public class BookController {
     }
 
     @GetMapping("title")
-    public String getBookByTitle(@RequestParam String title, Model model){
-        List<BookRecord> bookByTitle = readingListService.findBookByTitle(title);
-        if (bookByTitle.isEmpty()){
-            return "books/error-list-books";
+    public String getBookByTitleLike(@RequestParam  String title, Model model ){
+        // allow parameterless GET request for /title to return all records
+        if (title.isEmpty()) {
+            title = ""; // empty String signifies broadest possible search
         }
-        model.addAttribute("book", bookByTitle);
-        return "books/list-books";
+
+        List<BookRecord> bookListByTitle = readingListService.findByTitleContainingIgnoreCase(title);
+
+        if (bookListByTitle.isEmpty()){
+            return "books/error-list-books";
+        } else {
+            model.addAttribute("book", bookListByTitle);
+            return  "books/list-books";
+        }
     }
 
     @GetMapping("registration")
@@ -87,6 +94,5 @@ public class BookController {
         modelAndView.setViewName("error-page"); // Create a custom error page
         return modelAndView;
     }
-
 
 }
