@@ -16,6 +16,8 @@ public interface ReadingListService {
 
     List<BookRecord> findBookByTitle(String title);
 
+    List<BookRecord> findByTitleContainingIgnoreCase(String title);
+
     BookRecord getBookDetails(int id) throws NotFoundException;
 
     Book addBook(Book book);
