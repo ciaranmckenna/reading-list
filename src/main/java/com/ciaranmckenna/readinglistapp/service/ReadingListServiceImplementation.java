@@ -138,4 +138,9 @@ public class ReadingListServiceImplementation implements ReadingListService{
         return authorRepository.save(author);
     }
 
+    @Override
+    public void deleteAuthorById(int id){
+        authorRepository.deleteById(id);
+    }
+
 }

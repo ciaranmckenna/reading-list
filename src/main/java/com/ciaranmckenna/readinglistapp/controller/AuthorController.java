@@ -56,4 +56,10 @@ public class AuthorController {
         return "authors/author-form";
     }
 
+    @GetMapping("delete/{authorId}")
+    public String deleteAuthor(@PathVariable("authorId") int id){
+        readingListService.deleteAuthorById(id);
+        return "redirect:/author/list";
+    }
+
 }

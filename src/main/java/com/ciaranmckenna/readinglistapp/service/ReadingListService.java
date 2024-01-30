@@ -31,4 +31,6 @@ public interface ReadingListService {
     AuthorRecord getAuthorDetails(int id) throws NotFoundException;
 
     Author addAuthor(Author author);
+
+    void deleteAuthorById(int id);
 }
