@@ -36,11 +36,18 @@
       <td th:text="${tempAuthor.firstName }" ></td>
       <td th:text="${tempAuthor.lastName }" ></td>
 
-    <!--add update button link-->
     <td>
+      <!--add update button link-->
       <a th:if="${tempAuthor.id != null}" th:href="@{/author/update/{authorId}(authorId=${tempAuthor.id})}"
          class="btn btn-primary btn-sm mb-3">
         Update
+      </a>
+
+      <!--add delete button link-->
+      <a th:if="${tempAuthor.id != null}" th:href="@{/author/delete/{authorId}(authorId=${tempAuthor.id})}"
+         class="btn btn-danger btn-sm mb-3"
+         onclick="if (!(confirm('Are you sure you want to delete this author?'))) return false">
+        Delete
       </a>
     </td>
 
