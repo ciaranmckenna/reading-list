@@ -24,6 +24,16 @@ https://www.java.com/en/download/help/download_options.html
 MySQL: Download MySQL
 https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/
 
+mvn --version
+
+Download maven: https://maven.apache.org/download.cgi
+
+Install maven: https://maven.apache.org/install.html
+
+or 
+
+Install with brew: https://maven.apache.org/install.html
+
 # Getting Started 🚀
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
