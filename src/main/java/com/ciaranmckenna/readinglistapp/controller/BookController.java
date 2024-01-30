@@ -91,7 +91,7 @@ public class BookController {
     public ModelAndView handleNotFoundException(NotFoundException ex) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("error", ex.getMessage());
-        modelAndView.setViewName("error-page"); // Create a custom error page
+        modelAndView.setViewName("error-page");
         return modelAndView;
     }
 
