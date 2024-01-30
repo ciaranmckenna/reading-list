@@ -50,6 +50,8 @@ Locate ReadingListAppApplication from project view right click ReadingListAppApp
 
 To run this locally, use this command in your terminal: 
 
+From with the Target dir run: ```mvn package``` 
+
 ```java -jar reading-list-app-0.0.1-SNAPSHOT.jar```
 
 The application will start, and you can access it by navigating to http://localhost:8080 in your web browser.
