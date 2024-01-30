@@ -44,9 +44,16 @@ public class AuthorController {
     }
 
     @PostMapping("add")
-    public String addAuthor(String firstName, String lastName){
-        readingListService.addAuthor(firstName, lastName);
+    public String addAuthor(@ModelAttribute("author") Author author){
+        readingListService.addAuthor(author);
         return "redirect:/author/list";
+    }
+
+    @GetMapping("update/{authorId}")
+    public String updateAuthor(@PathVariable("authorId") int id, Model model) throws NotFoundException {
+        Author authorById = readingListService.findAuthorById(id);
+        model.addAttribute("author", authorById);
+        return "authors/author-form";
     }
 
 }

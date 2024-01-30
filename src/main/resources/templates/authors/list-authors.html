@@ -26,16 +26,26 @@
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
+      <th>Action</th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="tempAuthor : ${author}">
 
-      <td th:text="${tempAuthor.firstName}" />
-      <td th:text="${tempAuthor.lastName}" />
+      <td th:text="${tempAuthor.firstName }" ></td>
+      <td th:text="${tempAuthor.lastName }" ></td>
+
+    <!--add update button link-->
+    <td>
+      <a th:if="${tempAuthor.id != null}" th:href="@{/author/update/{authorId}(authorId=${tempAuthor.id})}"
+         class="btn btn-primary btn-sm mb-3">
+        Update
+      </a>
+    </td>
 
     </tr>
+
     </tbody>
   </table>
 

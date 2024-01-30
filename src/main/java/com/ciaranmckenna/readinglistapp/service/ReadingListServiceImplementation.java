@@ -33,6 +33,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
             BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
             bookRecordList.add(bookRecord);
         }
+
         Collections.sort(bookRecordList, Comparator.comparing(BookRecord::title));
         return bookRecordList;
     }
@@ -102,8 +103,14 @@ public class ReadingListServiceImplementation implements ReadingListService{
     public List<AuthorRecord> findAllAuthors() {
         List<Author> authorList = authorRepository.findAll();
 
-        return authorList.stream()
-                .map(author -> new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName())).toList();
+        List<AuthorRecord> authorRecordList = new ArrayList<>();
+
+        for(Author author : authorList){
+            AuthorRecord authorRecord = new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName());
+            authorRecordList.add(authorRecord);
+        }
+        Collections.sort(authorRecordList, Comparator.comparing(AuthorRecord::lastName, Comparator.nullsLast(String::compareTo)));
+        return authorRecordList;
     }
 
     @Override
@@ -127,14 +134,8 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public Author addAuthor(String firstName, String lastName) {
-
-        Author author = new Author();
-        author.setFirstName(firstName);
-        author.setLastName(lastName);
-
+    public Author addAuthor(Author author) {
         return authorRepository.save(author);
-
     }
 
 }

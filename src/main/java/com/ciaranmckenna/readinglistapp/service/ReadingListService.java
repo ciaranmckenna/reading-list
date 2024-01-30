@@ -30,5 +30,5 @@ public interface ReadingListService {
 
     AuthorRecord getAuthorDetails(int id) throws NotFoundException;
 
-    Author addAuthor(String firstName, String lastName);
+    Author addAuthor(Author author);
 }

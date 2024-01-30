@@ -45,13 +45,14 @@
             <td th:text="${tempBook.title}"></td>
             <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }"></td>
             <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }"></td>
+
             <!--add update button link-->
             <td>
                 <a th:if="${tempBook.id != null}" th:href="@{/book/update/{bookId}(bookId=${tempBook.id})}"
                    class="btn btn-primary btn-sm mb-3">
                     Update
                 </a>
-
+                <!--add delete button link-->
                 <a th:if="${tempBook.id != null}" th:href="@{/book/delete/{bookId}(bookId=${tempBook.id})}"
                    class="btn btn-danger btn-sm mb-3"
                     onclick="if (!(confirm('Are you sure you want to delete this book?'))) return false">
