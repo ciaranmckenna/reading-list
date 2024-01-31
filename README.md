@@ -52,7 +52,7 @@ To run this locally, use this command in your terminal:
 
 From with the target dir run: ```mvn package``` 
 
-This will generate the jar file ```java -jar reading-list-app-0.0.1-SNAPSHOT.jar```
+This will generate the jar file ```reading-list-app-0.0.1-SNAPSHOT.jar```
 
 To run it enter: ```java -jar reading-list-app-0.0.1-SNAPSHOT.jar``` in your terminal
 
