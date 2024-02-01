@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
-    //List<Author> findByFirstNameAndLastNameContainingIgnoreCase(String firstName, String lastName);
+//    List<Author> findByFirstNameOrLastNameContainingIgnoreCase(String firstName, String lastName);
 
     @Query("SELECT a FROM Author a WHERE LOWER(a.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) AND LOWER(a.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))")
     List<Author> findByFirstNameAndLastNameContainingIgnoreCase(@Param("firstName") String firstName, @Param("lastName") String lastName);
