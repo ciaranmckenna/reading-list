@@ -7,11 +7,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
-
-//    List<Author> findByFirstNameOrLastNameContainingIgnoreCase(String firstName, String lastName);
 
     @Query("SELECT a FROM Author a WHERE LOWER(a.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) AND LOWER(a.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))")
     List<Author> findByFirstNameAndLastNameContainingIgnoreCase(@Param("firstName") String firstName, @Param("lastName") String lastName);

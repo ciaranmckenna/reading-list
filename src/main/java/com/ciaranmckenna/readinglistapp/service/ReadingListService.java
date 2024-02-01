@@ -28,8 +28,6 @@ public interface ReadingListService {
 
     List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName);
 
-    AuthorRecord getAuthorDetails(int id) throws NotFoundException;
-
     Author addAuthor(Author author);
 
     void deleteAuthorById(int id);
