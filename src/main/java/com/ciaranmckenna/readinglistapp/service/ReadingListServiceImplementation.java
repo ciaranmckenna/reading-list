@@ -45,23 +45,6 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public List<BookRecord> findBookByTitle(String title) {
-        List<Book> bookListTitle = bookRepository.findBytitle(title);
-        List<BookRecord> bookRecordList = new ArrayList<>();
-
-        for (Book book : bookListTitle) {
-            BookRecord bookRecord = new BookRecord(
-                    book.getId(),
-                    book.getTitle(),
-                    book.getAuthor().getFirstName(),
-                    book.getAuthor().getLastName()
-            );
-            bookRecordList.add(bookRecord);
-        }
-        return bookRecordList;
-    }
-
-    @Override
     public List<BookRecord> findByTitleContainingIgnoreCase(String title) {
         List<Book> bookListByTitleLike = bookRepository.findByTitleContainingIgnoreCase(title);
         List<BookRecord> bookRecordList = new ArrayList<>();
@@ -117,6 +100,19 @@ public class ReadingListServiceImplementation implements ReadingListService{
     public Author findAuthorById(int id) throws NotFoundException {
         Optional<Author> optionalAuthorId = authorRepository.findById(id);
         return optionalAuthorId.orElseThrow(() -> new NotFoundException("No author id found"));
+    }
+
+    @Override
+    public List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName ) {
+        List<Author> authorNameList = authorRepository.findByFirstNameAndLastNameContainingIgnoreCase(firstName, lastName);
+
+        List<AuthorRecord> authorRecordList = new ArrayList<>();
+
+        for (Author author : authorNameList) {
+            AuthorRecord authorRecord = new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName());
+            authorRecordList.add(authorRecord);
+        }
+        return authorRecordList;
     }
 
     @Override

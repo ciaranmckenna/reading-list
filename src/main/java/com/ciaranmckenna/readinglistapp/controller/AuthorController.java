@@ -1,6 +1,7 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
+import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
@@ -33,6 +34,26 @@ public class AuthorController {
         if (authorById != null){
             model.addAttribute("author", authorById);
         }
+        return "authors/list-authors";
+    }
+
+    @GetMapping("search")
+    public String showFormForSearch(Model model){
+        Author author = new Author();
+        model.addAttribute("author", author);
+        return "authors/author-search";
+    }
+
+    @GetMapping("name")
+    public String findAuthorByNameContaining(@RequestParam String firstName, @RequestParam String lastName, Model model){
+
+        if (firstName.isEmpty() && lastName.isEmpty()) {
+            firstName = ""; // empty String signifies broadest possible search
+            lastName = ""; // empty String signifies broadest possible search
+
+        }
+        List<AuthorRecord> authorNameContaining = readingListService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
+        model.addAttribute("author", authorNameContaining);
         return "authors/list-authors";
     }
 

@@ -14,8 +14,6 @@ public interface ReadingListService {
 
     Book findBookById(int id) throws NotFoundException;
 
-    List<BookRecord> findBookByTitle(String title);
-
     List<BookRecord> findByTitleContainingIgnoreCase(String title);
 
     BookRecord getBookDetails(int id) throws NotFoundException;
@@ -27,6 +25,8 @@ public interface ReadingListService {
     List<AuthorRecord> findAllAuthors();
 
     Author findAuthorById(int id) throws NotFoundException;
+
+    List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName);
 
     AuthorRecord getAuthorDetails(int id) throws NotFoundException;
 

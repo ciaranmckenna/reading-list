@@ -24,7 +24,12 @@
   <!--  Add an author button-->
   <a th:href="@{/author/registration}"
      class="btn btn-primary btn-sm mb-3">
-    Add An Author
+    Add
+  </a>
+
+  <a th:href="@{/author/search}"
+     class="btn btn-primary btn-sm mb-3">
+    Find
   </a>
 
   <table class="table table-bordered table-striped">
@@ -61,6 +66,9 @@
 
     </tbody>
   </table>
+
+  <hr>
+  <a th:href="@{/author/list}">Back to Author List</a>
 
 </div>
 </body>
