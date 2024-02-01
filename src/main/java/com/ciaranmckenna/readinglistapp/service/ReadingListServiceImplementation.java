@@ -74,7 +74,13 @@ public class ReadingListServiceImplementation implements ReadingListService{
 
     @Override
     public Book addBook(Book book) {
+        List<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
+
+        if (!listTitleContaining.isEmpty()){
+            return listTitleContaining.get(0);
+        }else {
         return bookRepository.save(book);
+        }
     }
 
     @Override
