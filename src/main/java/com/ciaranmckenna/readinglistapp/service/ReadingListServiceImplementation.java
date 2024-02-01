@@ -116,22 +116,14 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
-    public AuthorRecord getAuthorDetails(int id) throws NotFoundException {
-        Author author = findAuthorById(id);
-        if (author != null) {
-            return new AuthorRecord(
-                    author.getId(),
-                    author.getFirstName(),
-                    author.getLastName()
-            );
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public Author addAuthor(Author author) {
+        List<Author> authorNameContainingList = authorRepository.findByFirstNameAndLastNameContainingIgnoreCase(author.getFirstName(), author.getLastName());
+
+        if (!authorNameContainingList.isEmpty()){
+            return authorNameContainingList.get(0);
+        }else {
         return authorRepository.save(author);
+        }
     }
 
     @Override
