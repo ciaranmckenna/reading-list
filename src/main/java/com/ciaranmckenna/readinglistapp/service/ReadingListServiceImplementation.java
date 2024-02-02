@@ -110,7 +110,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
 
     @Override
     public List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName ) {
-        List<Author> authorNameList = authorRepository.findByFirstNameAndLastNameContainingIgnoreCase(firstName, lastName);
+        List<Author> authorNameList = authorRepository.findByFirstNameOrLastName(firstName, lastName);
 
         List<AuthorRecord> authorRecordList = new ArrayList<>();
 
@@ -123,7 +123,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
 
     @Override
     public Author addAuthor(Author author) {
-        List<Author> authorNameContainingList = authorRepository.findByFirstNameAndLastNameContainingIgnoreCase(author.getFirstName(), author.getLastName());
+        List<Author> authorNameContainingList = authorRepository.findByFirstNameOrLastName(author.getFirstName(), author.getLastName());
 
         if (!authorNameContainingList.isEmpty()){
             return authorNameContainingList.get(0);
