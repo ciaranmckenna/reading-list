@@ -2,8 +2,10 @@ package com.ciaranmckenna.readinglistapp.service;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
+import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
+import com.ciaranmckenna.readinglistapp.dao.repository.CategoryRepository;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
@@ -17,9 +19,12 @@ public class ReadingListServiceImplementation implements ReadingListService{
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    public ReadingListServiceImplementation(BookRepository bookRepository, AuthorRepository authorRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public ReadingListServiceImplementation(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -30,7 +35,8 @@ public class ReadingListServiceImplementation implements ReadingListService{
         List<BookRecord> bookRecordList = new ArrayList<>();
 
         for (Book book: bookList) {
-            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            String categoryName = (book.getCategory() != null) ? book.getCategory().getName() : "";
+            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(), book.getAuthor().getFirstName(), book.getAuthor().getLastName(), categoryName);
             bookRecordList.add(bookRecord);
         }
 
@@ -50,7 +56,8 @@ public class ReadingListServiceImplementation implements ReadingListService{
         List<BookRecord> bookRecordList = new ArrayList<>();
 
         for (Book book : bookListByTitleLike) {
-            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(),book.getAuthor().getFirstName(), book.getAuthor().getLastName());
+            String categoryName = (book.getCategory() != null) ? book.getCategory().getName() : "";
+            BookRecord bookRecord = new BookRecord(book.getId(), book.getTitle(),book.getAuthor().getFirstName(), book.getAuthor().getLastName(), categoryName);
             bookRecordList.add(bookRecord);
         }
         return bookRecordList;
@@ -61,11 +68,14 @@ public class ReadingListServiceImplementation implements ReadingListService{
         Book book = findBookById(id);
 
         if (book!=null) {
+            String categoryName = (book.getCategory() != null) ? book.getCategory().getName() : "";
             return new BookRecord(
+
                     book.getId(),
                     book.getTitle(),
                     book.getAuthor().getFirstName(),
-                    book.getAuthor().getLastName()
+                    book.getAuthor().getLastName(),
+                    categoryName
             );
         } else {
             return null;
@@ -81,6 +91,7 @@ public class ReadingListServiceImplementation implements ReadingListService{
         }else {
         return bookRepository.save(book);
         }
+
     }
 
     @Override
@@ -135,6 +146,12 @@ public class ReadingListServiceImplementation implements ReadingListService{
     @Override
     public void deleteAuthorById(int id){
         authorRepository.deleteById(id);
+    }
+
+    @Override
+    public Category findCategoryById(int id) throws NotFoundException {
+        Optional<Category> categoryById = categoryRepository.findById(id);
+        return categoryById.orElseThrow(() -> new NotFoundException("No category id found"));
     }
 
 }

@@ -36,6 +36,7 @@
                 <th>Title</th>
                 <th>Author First Name</th>
                 <th>Author Last Name</th>
+                <th>Category</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -45,6 +46,7 @@
             <td th:text="${tempBook.title}"></td>
             <td th:text="${tempBook.authorFirstName != null ? tempBook.authorFirstName : 'N/A' }"></td>
             <td th:text="${tempBook.authorLastName != null ? tempBook.authorLastName : 'N/A' }"></td>
+            <td th:text="${tempBook.category != null ? tempBook.category : 'N/A' }"></td>
 
             <!--add update button link-->
             <td>

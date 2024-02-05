@@ -1,6 +1,7 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
+import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
@@ -64,6 +65,7 @@ public class BookController {
     @GetMapping("registration")
     public String showFormForAdd(Model model){
         Book book = new Book();
+        //Category category = readingListService.findCategoryById() // this cant be right as I need to bind the category to the model in some way
         model.addAttribute("book", book);
         return "books/book-form";
     }
