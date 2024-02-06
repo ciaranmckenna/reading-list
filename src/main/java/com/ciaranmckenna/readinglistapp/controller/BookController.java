@@ -127,7 +127,9 @@ public class BookController {
     @GetMapping("update/{bookId}")
     public String updateBook(@PathVariable("bookId") int id, Model model) throws NotFoundException {
         Book bookById = readingListService.findBookById(id);
+        List<CategoryRecord> categories = readingListService.findAllCategories();
         model.addAttribute("book", bookById);
+        model.addAttribute("categories", categories);
         return "books/book-form";
     }
 
