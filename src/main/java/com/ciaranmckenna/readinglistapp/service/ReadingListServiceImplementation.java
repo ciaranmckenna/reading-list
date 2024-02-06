@@ -6,6 +6,7 @@ import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.CategoryRepository;
+import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
@@ -153,5 +154,23 @@ public class ReadingListServiceImplementation implements ReadingListService{
         Optional<Category> categoryById = categoryRepository.findById(id);
         return categoryById.orElseThrow(() -> new NotFoundException("No category id found"));
     }
+
+    @Override
+    public List<CategoryRecord> findAllCategories() {
+        List<CategoryRecord> categoryRecordList = new ArrayList<>();
+        List<Category> categoryList = categoryRepository.findAll();
+
+        for (Category category: categoryList) {
+            String categoryName = (category.getName() !=null) ? category.getName() : "";
+            CategoryRecord categoryRecord = new CategoryRecord(category.getId(), categoryName);
+            categoryRecordList.add(categoryRecord);
+        }
+        return categoryRecordList;
+    }
+
+//    @Override
+//    public List<Category> findAllCategories() {
+//        return categoryRepository.findAll();
+//    }
 
 }

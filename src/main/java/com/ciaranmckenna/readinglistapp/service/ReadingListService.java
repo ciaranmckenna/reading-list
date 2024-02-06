@@ -3,6 +3,7 @@ package com.ciaranmckenna.readinglistapp.service;
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
+import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
@@ -34,4 +35,7 @@ public interface ReadingListService {
     void deleteAuthorById(int id);
 
     Category findCategoryById(int id) throws NotFoundException;
+
+    List<CategoryRecord> findAllCategories();
+    //List<Category> findAllCategories();
 }

@@ -2,11 +2,15 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
+import com.ciaranmckenna.readinglistapp.dao.repository.CategoryRepository;
+import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,9 +21,11 @@ import java.util.List;
 public class BookController {
 
     private final ReadingListService readingListService;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(ReadingListService readingListService) {
+    public BookController(ReadingListService readingListService, CategoryRepository categoryRepository) {
         this.readingListService = readingListService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("list")
@@ -65,16 +71,43 @@ public class BookController {
     @GetMapping("registration")
     public String showFormForAdd(Model model){
         Book book = new Book();
-        //Category category = readingListService.findCategoryById() // this cant be right as I need to bind the category to the model in some way
+        List<CategoryRecord> categories = readingListService.findAllCategories();
+        //List<Category> categories = readingListService.findAllCategories();
+        //Category categories = new Category();
         model.addAttribute("book", book);
+        model.addAttribute("categories", categories);
         return "books/book-form";
     }
 
     @PostMapping("add")
-    public String addBook(@ModelAttribute("book") Book book){
+    public String addBook(@ModelAttribute("book") @Valid Book book, BindingResult result){
+        if (result.hasErrors()){
+            return "error-list-books";
+        }
+
+        Category selectedCategory = book.getCategory();
+        if (selectedCategory !=null && selectedCategory.getId() == null){
+            book.setCategory(selectedCategory);
+        }
         readingListService.addBook(book);
         return "redirect:/book/list";
     }
+
+//    @PostMapping("add")
+//    public String addBook(@ModelAttribute("book") Book book, @ModelAttribute("category") CategoryRecord categoryRecord) {
+//        Category selectedCategory = convertToCategory(categoryRecord);
+//
+//        if (selectedCategory.getId() == null) {
+//            // Set other properties if needed
+//            // Ensure that the selectedCategory is managed by Hibernate
+//            selectedCategory = categoryRepository.save(selectedCategory);
+//        }
+//
+//        book.setCategory(selectedCategory);
+//        readingListService.addBook(book);
+//
+//        return "redirect:/book/list";
+//    }
 
     @GetMapping("update/{bookId}")
     public String updateBook(@PathVariable("bookId") int id, Model model) throws NotFoundException {
@@ -97,4 +130,11 @@ public class BookController {
         return modelAndView;
     }
 
+    public Category convertToCategory(CategoryRecord categoryRecord) {
+        Category category = new Category();
+        category.setId(categoryRecord.id());
+        category.setName(categoryRecord.name());
+        // Set any other properties if needed
+        return category;
+    }
 }

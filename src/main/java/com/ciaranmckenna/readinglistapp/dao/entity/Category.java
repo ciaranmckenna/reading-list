@@ -4,18 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
 @Data
 @NoArgsConstructor
-public class Category {
+public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @Column(name = "name")
     private String name;
 

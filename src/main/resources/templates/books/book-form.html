@@ -21,6 +21,8 @@
         <!--Adding hidden form field to handle the update-->
         <input type="hidden" th:field="*{id}"/>
 
+        <input type="hidden" th:field="*{category}" th:value="${categoryRecord}" />
+
         <input type="text" th:field="*{title}"
                 class="form-control mb4 w-25" placeholder="Title">
 
@@ -30,8 +32,9 @@
         <input type="text" th:field="*{author.lastName}"
                class="form-control mb4 w-25" placeholder="Author Last Name">
 
-        <input type="text" th:field="*{category.name}"
-               class="form-control mb4 w-25" placeholder="Category Name">
+        <select th:field="*{category.id}" class="form-control mb4 w-25">
+          <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+        </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
 
