@@ -21,8 +21,7 @@
         <!--Adding hidden form field to handle the update-->
         <input type="hidden" th:field="*{id}"/>
 
-        <input type="hidden" th:field="*{category}" th:value="${categoryRecord}" />
-
+        <!-- Input fields for book information -->
         <input type="text" th:field="*{title}"
                 class="form-control mb4 w-25" placeholder="Title">
 
@@ -32,16 +31,17 @@
         <input type="text" th:field="*{author.lastName}"
                class="form-control mb4 w-25" placeholder="Author Last Name">
 
+        <!-- Select dropdown for category -->
         <select th:field="*{category.id}" class="form-control mb4 w-25">
           <option value="">Select Category</option>
           <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-          <option value="NEW_CATEGORY">Create New Category</option>
+          <option value="-1">Create New Category</option>
         </select>
 
-        <!-- Input field for new category name -->
+        <!-- Hidden input fields for categoryId and categoryName -->
+        <input type="hidden" name="categoryId" th:value="*{category.id}">
         <input type="text" name="categoryName" class="form-control mb4 w-25" placeholder="New Category Name">
 
-        <!--need to create space between save button-->
         <hr>
         <button type="submit" class="btn btn-info col-2">Save</button>
 

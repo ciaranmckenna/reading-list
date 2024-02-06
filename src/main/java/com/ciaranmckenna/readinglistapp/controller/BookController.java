@@ -72,19 +72,17 @@ public class BookController {
     public String showFormForAdd(Model model){
         Book book = new Book();
         List<CategoryRecord> categories = readingListService.findAllCategories();
-        //List<Category> categories = readingListService.findAllCategories();
-        //Category categories = new Category();
         model.addAttribute("book", book);
         model.addAttribute("categories", categories);
         return "books/book-form";
     }
 
     @PostMapping("add")
-    public String addBook(@ModelAttribute("book") Book book, @RequestParam("categoryName") String categoryName) {
-        if (book.getCategory() != null && book.getCategory().getId() != null && book.getCategory().getId().equals("NEW_CATEGORY")) {
+    public String addBook(@ModelAttribute("book") Book book, @RequestParam("categoryId") Integer categoryId, @RequestParam("categoryName") String categoryName) {
+        if (categoryId != null && categoryId.equals(-1)) {
             // User selected option to create a new category
             Category newCategory = new Category(categoryName);
-            Category savedCategory = readingListService.addCategory(newCategory); 
+            Category savedCategory = readingListService.addCategory(newCategory);
             book.setCategory(savedCategory);
         }
 
