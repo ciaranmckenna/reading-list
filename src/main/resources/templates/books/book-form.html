@@ -26,20 +26,22 @@
         <input type="text" th:field="*{title}"
                 class="form-control mb4 w-25" placeholder="Title">
 
+        <!-- You can use a similar appproach here -->
         <input type="text" th:field="*{author.firstName}"
                class="form-control mb4 w-25" placeholder="Author First Name">
 
         <input type="text" th:field="*{author.lastName}"
                class="form-control mb4 w-25" placeholder="Author Last Name">
+        <!------------------------------------------>
 
-        <select th:field="*{category.id}" class="form-control mb4 w-25">
-          <option value="">Select Category</option>
-          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-          <option value="NEW_CATEGORY">Create New Category</option>
-        </select>
+        <!-- List of categories -->
+        <ul id="categoryList" class="list-group mb-4 w-25">
+          <li th:each="category : ${categories}" class="list-group-item category-item" th:attr="data-id=${category.id}" th:text="${category.name}"></li>
+        </ul>
 
-        <!-- Input field for new category name -->
-        <input type="text" name="categoryName" class="form-control mb4 w-25" placeholder="New Category Name">
+        <!-- Input field for new category name and id -->
+        <input id="categoryName" type="text" name="categoryName" class="form-control mb4 w-25" placeholder="New Category Name">
+        <input id="categoryId" type="hidden" name="categoryId">
 
         <!--need to create space between save button-->
         <hr>
@@ -50,6 +52,23 @@
       <hr>
       <a th:href="@{/book/list}">Back to Book List</a>
     </div>
+
+
+    <!-- The script should be placed in a separate JS file and imported -->
+    <script>
+        // catch required elements using pure js
+        let catList = document.getElementById('categoryList');
+        let catId = document.getElementById('categoryId');
+        let catName = document.getElementById('categoryName');
+
+        // attach click event to it
+        catList.addEventListener('click', function(event) {
+          if (event.target.tagName === 'LI') {
+              catId.value = event.target.getAttribute("data-id");
+              catName.value = event.target.innerText;
+          }
+        });
+    </script>
 
 </body>
 </html>
