@@ -33,9 +33,16 @@
                class="form-control mb4 w-25" placeholder="Author Last Name">
 
         <select th:field="*{category.id}" class="form-control mb4 w-25">
-          <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+          <option value="">Select Category</option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+          <option value="NEW_CATEGORY">Create New Category</option>
         </select>
 
+        <!-- Input field for new category name -->
+        <input type="text" name="categoryName" class="form-control mb4 w-25" placeholder="New Category Name">
+
+        <!--need to create space between save button-->
+        <hr>
         <button type="submit" class="btn btn-info col-2">Save</button>
 
       </form>

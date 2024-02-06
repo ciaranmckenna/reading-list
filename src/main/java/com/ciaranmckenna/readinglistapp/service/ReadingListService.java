@@ -34,6 +34,8 @@ public interface ReadingListService {
 
     void deleteAuthorById(int id);
 
+    Category addCategory(Category category);
+
     Category findCategoryById(int id) throws NotFoundException;
 
     List<CategoryRecord> findAllCategories();

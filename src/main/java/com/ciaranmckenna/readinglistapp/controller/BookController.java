@@ -80,18 +80,33 @@ public class BookController {
     }
 
     @PostMapping("add")
-    public String addBook(@ModelAttribute("book") @Valid Book book, BindingResult result){
-        if (result.hasErrors()){
-            return "error-list-books";
+    public String addBook(@ModelAttribute("book") Book book, @RequestParam("categoryName") String categoryName) {
+        if (book.getCategory() != null && book.getCategory().getId() != null && book.getCategory().getId().equals("NEW_CATEGORY")) {
+            // User selected option to create a new category
+            Category newCategory = new Category(categoryName);
+            Category savedCategory = readingListService.addCategory(newCategory); 
+            book.setCategory(savedCategory);
         }
 
-        Category selectedCategory = book.getCategory();
-        if (selectedCategory !=null && selectedCategory.getId() == null){
-            book.setCategory(selectedCategory);
-        }
+        // Handle saving the book to the database
         readingListService.addBook(book);
+
         return "redirect:/book/list";
     }
+
+//    @PostMapping("add")
+//    public String addBook(@ModelAttribute("book") @Valid Book book, BindingResult result){
+//        if (result.hasErrors()){
+//            return "error-list-books";
+//        }
+//
+//        Category selectedCategory = book.getCategory();
+//        if (selectedCategory !=null && selectedCategory.getId() == null){
+//            book.setCategory(selectedCategory);
+//        }
+//        readingListService.addBook(book);
+//        return "redirect:/book/list";
+//    }
 
 //    @PostMapping("add")
 //    public String addBook(@ModelAttribute("book") Book book, @ModelAttribute("category") CategoryRecord categoryRecord) {

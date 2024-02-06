@@ -150,6 +150,23 @@ public class ReadingListServiceImplementation implements ReadingListService{
     }
 
     @Override
+    public Category addCategory(Category category){
+        return categoryRepository.save(category);
+    }
+
+//    @Override
+//    public Book addBook(Book book) {
+//        List<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
+//
+//        if (!listTitleContaining.isEmpty()){
+//            return listTitleContaining.get(0);
+//        }else {
+//            return bookRepository.save(book);
+//        }
+//
+//    }
+
+    @Override
     public Category findCategoryById(int id) throws NotFoundException {
         Optional<Category> categoryById = categoryRepository.findById(id);
         return categoryById.orElseThrow(() -> new NotFoundException("No category id found"));
