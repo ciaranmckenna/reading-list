@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ReadingListServiceImplementation implements ReadingListService{
+public class ReadingListServiceImpl implements ReadingListService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
     private final CategoryRepository categoryRepository;
 
-    public ReadingListServiceImplementation(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository) {
+    public ReadingListServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.categoryRepository = categoryRepository;
