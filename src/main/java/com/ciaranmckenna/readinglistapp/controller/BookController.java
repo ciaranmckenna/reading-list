@@ -1,32 +1,43 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
+import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
+import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.CategoryRepository;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.service.ReadingListService;
+import com.ciaranmckenna.readinglistapp.vo.BookUpdateVO;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/book/")
 @Controller
+@AllArgsConstructor
+@Slf4j
 public class BookController {
 
     private final ReadingListService readingListService;
-    private final CategoryRepository categoryRepository;
 
-    public BookController(ReadingListService readingListService, CategoryRepository categoryRepository) {
-        this.readingListService = readingListService;
-        this.categoryRepository = categoryRepository;
-    }
+    //Repositories should be handled within @Services - controllers should only expose, validate, etc...
+    private final CategoryRepository categoryRepository;
+    private final BookRepository bookRepository;
+
 
     @GetMapping("list")
     public String findAllBooks(Model model){
@@ -131,6 +142,41 @@ public class BookController {
         return "books/book-form";
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<String> updateBook(@Valid @RequestBody BookUpdateVO bookUpdateVO) {
+
+        log.info("Don't forget to add logs to your app ;)");
+
+        //implement this in a service
+        try {
+
+            Book bookToUpdate = readingListService.findBookById(bookUpdateVO.getId());
+
+            bookToUpdate.setTitle(bookUpdateVO.getTitle());
+            //...
+
+            if (bookUpdateVO.getCategoryId() == 0) {
+                Category newCat = new Category(bookUpdateVO.getCategoryName());
+                newCat = categoryRepository.save(newCat);
+                bookToUpdate.setCategory(newCat);
+            } else {
+                Optional<Category> optCat = categoryRepository.findById(bookUpdateVO.getCategoryId());
+                if (optCat.isEmpty()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category id");
+                } else {
+                    bookToUpdate.setCategory(optCat.get());
+                }
+            }
+
+            Book savedBook = bookRepository.save(bookToUpdate);
+
+            return ResponseEntity.ok("Book updated successfully");
+            //OR: return ResponseEntity.ok(savedBook);
+            //OR: redirect to other thymeleaf template
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update book: " + e.getMessage());
+        }
+    }
     @GetMapping("delete/{bookId}")
     public String deleteBook(@PathVariable("bookId") int id){
         readingListService.deleteBookById(id);
