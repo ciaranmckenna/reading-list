@@ -1,14 +1,14 @@
 package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "author", uniqueConstraints = @UniqueConstraint(columnNames = {"firstName", "lastName"}))
 public class Author {
@@ -26,5 +26,4 @@ public class Author {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books;
-
 }
