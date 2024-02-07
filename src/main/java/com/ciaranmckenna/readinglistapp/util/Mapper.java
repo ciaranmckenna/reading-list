@@ -12,13 +12,16 @@ public class Mapper {
     }
 
     public static BookRecord mapBookEntityToBookRecord(Book book) {
+        String authorFirstName = book.getAuthor() != null ? book.getAuthor().getFirstName() : "N/A";
+        String authorLastName = book.getAuthor() != null ? book.getAuthor().getLastName() : "N/A";
         return new BookRecord(
                 book.getId(),
                 book.getTitle(),
-                book.getAuthor().getFirstName(),
-                book.getAuthor().getLastName()
+                authorFirstName,
+                authorLastName
         );
     }
+
     private Mapper() {
 
     }

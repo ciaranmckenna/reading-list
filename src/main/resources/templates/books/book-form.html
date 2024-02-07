@@ -24,13 +24,12 @@
 
         <!-- Dropdown menu for selecting authors -->
         <select th:field="*{author}" class="form-control mb4 w-25">
-          <option value="">-- Select Author --</option>
-          <option th:each="author : ${authors}" th:value="${author.getId()}" th:text="${author.firstName + ' ' + author.lastName}"></option>
+          <option value="" selected>-- Select Author --</option>
+          <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.firstName + ' ' + author.lastName}"></option>
         </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
       </form>
-
 
       <hr>
       <a th:href="@{/book/list}">Go to book's list</a>

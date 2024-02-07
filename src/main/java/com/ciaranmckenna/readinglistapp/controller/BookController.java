@@ -63,8 +63,14 @@ public class BookController {
 
     @GetMapping("/registration")
     public String showFormForAdd(Model model){
+        // Populate the model with the list of authors
+        List<Author> authors = authorRepository.findAll();
+        model.addAttribute("authors", authors);
+
+        // Add an empty Book object to bind form data
         Book book = new Book();
         model.addAttribute("book", book);
+
         return "books/book-form";
     }
 
@@ -77,17 +83,11 @@ public class BookController {
         // Add an empty Book object to bind form data
         model.addAttribute("book", new Book());
 
-        return "add-book-form";
+        return "books/book-form";
     }
 
     @PostMapping("/add")
     public String addBook(@ModelAttribute("book") Book book){
-        bookService.addBook(book);
-        return "redirect:/book/list";
-    }
-
-    @PostMapping("/save")
-    public String saveBook(@ModelAttribute("book") Book book){
         bookService.addBook(book);
         return "redirect:/book/list";
     }
