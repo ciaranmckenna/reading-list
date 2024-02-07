@@ -3,7 +3,8 @@ package com.ciaranmckenna.readinglistapp.controller;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
-import com.ciaranmckenna.readinglistapp.service.ReadingListService;
+import com.ciaranmckenna.readinglistapp.service.BookServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,47 +12,43 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RequestMapping("/book/")
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/book")
 public class BookController {
 
-    private final ReadingListService readingListService;
+    private final BookServiceImpl bookService;
 
-    public BookController(ReadingListService readingListService) {
-        this.readingListService = readingListService;
-    }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public String findAllBooks(Model model){
-        List<BookRecord> bookRecordList = readingListService.findAllBooks();
+        List<BookRecord> bookRecordList = bookService.findAllBooks();
         model.addAttribute("book", bookRecordList);
         return "books/list-books";
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public String getBookDetails(@PathVariable int id, Model model) throws NotFoundException {
-        BookRecord bookRecord = readingListService.getBookDetails(id);
-        if (bookRecord != null) {
-            model.addAttribute("book", bookRecord);
-        }
+        BookRecord bookRecord = bookService.getBookDetails(id);
+        model.addAttribute("book", bookRecord);
         return "books/list-books";
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public String showFormForSearch(Model model){
         Book book = new Book();
         model.addAttribute("book", book);
         return "books/book-search";
     }
 
-    @GetMapping("title")
-    public String getBookByTitleLike(@RequestParam  String title, Model model ){
+    @GetMapping("/title")
+    public String getBookByTitleLike(@RequestParam  String title, Model model ) {
         // allow parameterless GET request for /title to return all records
         if (title.isEmpty()) {
             title = ""; // empty String signifies broadest possible search
         }
 
-        List<BookRecord> bookListByTitle = readingListService.findByTitleContainingIgnoreCase(title);
+        List<BookRecord> bookListByTitle = bookService.findByTitleContainingIgnoreCase(title);
 
         if (bookListByTitle.isEmpty()){
             return "books/error-list-books";
@@ -61,38 +58,37 @@ public class BookController {
         }
     }
 
-    @GetMapping("registration")
+    @GetMapping("/registration")
     public String showFormForAdd(Model model){
         Book book = new Book();
         model.addAttribute("book", book);
         return "books/book-form";
     }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public String addBook(@ModelAttribute("book") Book book){
-        readingListService.addBook(book);
+        bookService.addBook(book);
         return "redirect:/book/list";
     }
 
-    @GetMapping("update/{bookId}")
+    @GetMapping("/update/{bookId}")
     public String updateBook(@PathVariable("bookId") int id, Model model) throws NotFoundException {
-        Book bookById = readingListService.findBookById(id);
+        BookRecord bookById = bookService.findBookById(id);
         model.addAttribute("book", bookById);
         return "books/book-form";
     }
 
-    @GetMapping("delete/{bookId}")
+    @GetMapping("/delete/{bookId}")
     public String deleteBook(@PathVariable("bookId") int id){
-        readingListService.deleteBookById(id);
+        bookService.deleteBookById(id);
         return "redirect:/book/list";
     }
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler()
     public ModelAndView handleNotFoundException(NotFoundException ex) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("error", ex.getMessage());
         modelAndView.setViewName("error-page");
         return modelAndView;
     }
-
 }

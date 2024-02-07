@@ -1,51 +1,54 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
-import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
-import com.ciaranmckenna.readinglistapp.service.ReadingListService;
+import com.ciaranmckenna.readinglistapp.service.AuthorServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
-@RequestMapping("/author/")
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/author")
 public class AuthorController {
 
-    private final ReadingListService readingListService;
+    private final AuthorServiceImpl authorService;
 
-    public AuthorController(ReadingListService readingListService) {
-        this.readingListService = readingListService;
-    }
-
-    @GetMapping("list")
-    public String findAllAuthors(Model model){
-        List<AuthorRecord> authorRecordList = readingListService.findAllAuthors();
+    @GetMapping("/list")
+    public String findByAuthorNameContainingIgnoreCase(@RequestParam(name = "firstName", required = false) String firstName,
+                                                       @RequestParam(name = "lastName", required = false) String lastName,
+                                                       Model model) {
+        List<AuthorRecord> authorRecordList;
+        if (firstName != null && !firstName.isEmpty() || lastName != null && !lastName.isEmpty()) {
+            authorRecordList = authorService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
+        } else {
+            authorRecordList = authorService.findAllAuthors();
+        }
         model.addAttribute("author", authorRecordList);
         return "authors/list-authors";
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public String findAuthorById(@PathVariable int id, Model model) throws NotFoundException {
-        Author authorById = readingListService.findAuthorById(id);
+        Author authorById = authorService.findAuthorById(id);
         if (authorById != null){
             model.addAttribute("author", authorById);
         }
         return "authors/list-authors";
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public String showFormForSearch(Model model){
         Author author = new Author();
         model.addAttribute("author", author);
         return "authors/author-search";
     }
 
-    @GetMapping("name")
+    @GetMapping("/name")
     public String findAuthorByNameContaining(@RequestParam String firstName, @RequestParam String lastName, Model model){
 
         if (firstName.isEmpty() && lastName.isEmpty()) {
@@ -53,35 +56,34 @@ public class AuthorController {
             lastName = ""; // empty String signifies broadest possible search
 
         }
-        List<AuthorRecord> authorNameContaining = readingListService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
+        List<AuthorRecord> authorNameContaining = authorService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
         model.addAttribute("author", authorNameContaining);
         return "authors/list-authors";
     }
 
-    @GetMapping("registration")
+    @GetMapping("/registration")
     public String showFormForAdd(Model model){
         Author author = new Author();
         model.addAttribute("author", author);
         return "authors/author-form";
     }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public String addAuthor(@ModelAttribute("author") Author author){
-        readingListService.addAuthor(author);
+        authorService.addAuthor(author);
         return "redirect:/author/list";
     }
 
-    @GetMapping("update/{authorId}")
+    @GetMapping("/update/{authorId}")
     public String updateAuthor(@PathVariable("authorId") int id, Model model) throws NotFoundException {
-        Author authorById = readingListService.findAuthorById(id);
+        Author authorById = authorService.findAuthorById(id);
         model.addAttribute("author", authorById);
         return "authors/author-form";
     }
 
-    @GetMapping("delete/{authorId}")
+    @GetMapping("/delete/{authorId}")
     public String deleteAuthor(@PathVariable("authorId") int id){
-        readingListService.deleteAuthorById(id);
+        authorService.deleteAuthorById(id);
         return "redirect:/author/list";
     }
-
 }

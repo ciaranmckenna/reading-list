@@ -43,33 +43,36 @@
 
     <tbody>
     <tr th:each="tempAuthor : ${author}">
-
       <td th:text="${tempAuthor.firstName }" ></td>
       <td th:text="${tempAuthor.lastName }" ></td>
 
-    <td>
-      <!--add update button link-->
-      <a th:if="${tempAuthor.id != null}" th:href="@{/author/update/{authorId}(authorId=${tempAuthor.id})}"
-         class="btn btn-primary btn-sm mb-3">
-        Update
-      </a>
+      <td>
+        <!--add update button link-->
+        <a th:if="${tempAuthor.id != null}" th:href="@{/author/update/{authorId}(authorId=${tempAuthor.id})}"
+           class="btn btn-primary btn-sm mb-3">
+          Update
+        </a>
 
-      <!--add delete button link-->
-      <a th:if="${tempAuthor.id != null}" th:href="@{/author/delete/{authorId}(authorId=${tempAuthor.id})}"
-         class="btn btn-danger btn-sm mb-3"
-         onclick="if (!(confirm('Are you sure you want to delete this author?'))) return false">
-        Delete
-      </a>
-    </td>
-
+        <!--add delete button link-->
+        <a th:if="${tempAuthor.id != null}" th:href="@{/author/delete/{authorId}(authorId=${tempAuthor.id})}"
+           class="btn btn-danger btn-sm mb-3"
+           onclick="if (!(confirm('Are you sure you want to delete this author?'))) return false">
+          Delete
+        </a>
+      </td>
     </tr>
 
+    <!-- Add this block to display a message when no authors are found -->
+    <tr th:if="${#lists.isEmpty(author)}">
+      <td colspan="3">No such author found</td>
+    </tr>
     </tbody>
   </table>
 
   <hr>
-  <a th:href="@{/author/list}">Back to Author List</a>
-
+  <a th:href="@{/book/list}">Go to book's list</a>
+  <br>
+  <a th:href="@{/author/list}">Back to author's List</a>
 </div>
 </body>
 </html>
