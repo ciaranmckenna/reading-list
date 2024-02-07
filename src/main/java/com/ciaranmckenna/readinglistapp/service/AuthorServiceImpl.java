@@ -59,13 +59,13 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addAuthor(Author author) {
-        List<Author> authorNameContainingList = authorRepository.findByFirstNameOrLastName(author.getFirstName(), author.getLastName());
+        Optional<Author> existingAuthor = findAuthorByFirstNameAndLastName(author.getFirstName(), author.getLastName());
 
-        if (!authorNameContainingList.isEmpty()){
-            return authorNameContainingList.get(0);
-        }else {
-            return authorRepository.save(author);
-        }
+        return existingAuthor.orElseGet(() -> authorRepository.save(author));
+    }
+
+    public Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName) {
+        return authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
     }
 
     @Override

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "author")
 @Data
 @NoArgsConstructor
+@Table(name = "author", uniqueConstraints = @UniqueConstraint(columnNames = {"firstName", "lastName"}))
 public class Author {
 
     @Id

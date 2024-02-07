@@ -1,8 +1,11 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
+import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
+import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
+import com.ciaranmckenna.readinglistapp.service.AuthorServiceImpl;
 import com.ciaranmckenna.readinglistapp.service.BookServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,7 @@ import java.util.List;
 public class BookController {
 
     private final BookServiceImpl bookService;
+    private final AuthorRepository authorRepository;
 
     @GetMapping("/list")
     public String findAllBooks(Model model) {
@@ -64,8 +68,26 @@ public class BookController {
         return "books/book-form";
     }
 
+    @GetMapping("/add")
+    public String showAddBookForm(Model model) {
+        // Populate the model with the list of authors
+        List<Author> authors = authorRepository.findAll();
+        model.addAttribute("authors", authors);
+
+        // Add an empty Book object to bind form data
+        model.addAttribute("book", new Book());
+
+        return "add-book-form";
+    }
+
     @PostMapping("/add")
     public String addBook(@ModelAttribute("book") Book book){
+        bookService.addBook(book);
+        return "redirect:/book/list";
+    }
+
+    @PostMapping("/save")
+    public String saveBook(@ModelAttribute("book") Book book){
         bookService.addBook(book);
         return "redirect:/book/list";
     }

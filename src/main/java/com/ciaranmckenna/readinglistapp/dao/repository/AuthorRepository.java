@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
@@ -15,5 +16,7 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     List<Author> findByFirstNameContainingIgnoreCase(String firstName);
     List<Author> findByLastNameContainingIgnoreCase(String lastName);
+
+    Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 }
 
