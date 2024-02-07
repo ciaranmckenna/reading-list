@@ -19,9 +19,8 @@ public class BookController {
 
     private final BookServiceImpl bookService;
 
-
     @GetMapping("/list")
-    public String findAllBooks(Model model){
+    public String findAllBooks(Model model) {
         List<BookRecord> bookRecordList = bookService.findAllBooks();
         model.addAttribute("book", bookRecordList);
         return "books/list-books";
@@ -42,10 +41,10 @@ public class BookController {
     }
 
     @GetMapping("/title")
-    public String getBookByTitleLike(@RequestParam  String title, Model model ) {
+    public String getBookByTitleLike(@RequestParam(required = false) String title, Model model ) {
         // allow parameterless GET request for /title to return all records
         if (title.isEmpty()) {
-            title = ""; // empty String signifies broadest possible search
+            return "books/list-books";
         }
 
         List<BookRecord> bookListByTitle = bookService.findByTitleContainingIgnoreCase(title);
