@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "author")
 @Data
 @NoArgsConstructor
+@Table(name = "author", uniqueConstraints = @UniqueConstraint(columnNames = {"firstName", "lastName"}))
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;

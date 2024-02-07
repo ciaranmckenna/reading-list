@@ -15,27 +15,26 @@
 
         <hr>
 
-      <form action="#" th:action="@{/book/add}"
-                        th:object="${book}" method="POST">
+      <form action="#" th:action="@{/book/add}" th:object="${book}" method="POST">
 
-        <!--Adding hidden form field to handle the update-->
+        <!-- Adding hidden form field to handle the update -->
         <input type="hidden" th:field="*{id}"/>
 
-        <input type="text" th:field="*{title}"
-                class="form-control mb4 w-25" placeholder="Title">
+        <input type="text" th:field="*{title}" class="form-control mb4 w-25" placeholder="Title">
 
-        <input type="text" th:field="*{author.firstName}"
-               class="form-control mb4 w-25" placeholder="Author First Name">
-
-        <input type="text" th:field="*{author.lastName}"
-               class="form-control mb4 w-25" placeholder="Author Last Name">
+        <!-- Dropdown menu for selecting authors -->
+        <select th:field="*{author}" class="form-control mb4 w-25">
+          <option value="" selected>-- Select Author --</option>
+          <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.firstName + ' ' + author.lastName}"></option>
+        </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
-
       </form>
 
       <hr>
-      <a th:href="@{/book/list}">Back to Book List</a>
+      <a th:href="@{/book/list}">Go to book's list</a>
+      <br>
+      <a th:href="@{/author/list}">Back to author's List</a>
     </div>
 
 </body>

@@ -55,7 +55,7 @@
                 <!--add delete button link-->
                 <a th:if="${tempBook.id != null}" th:href="@{/book/delete/{bookId}(bookId=${tempBook.id})}"
                    class="btn btn-danger btn-sm mb-3"
-                    onclick="if (!(confirm('Are you sure you want to delete this book?'))) return false">
+                   onclick="if (!(confirm('Are you sure you want to delete this book?'))) return false">
                     Delete
                 </a>
             </td>
@@ -67,8 +67,9 @@
     </table>
 
     <hr>
-    <a th:href="@{/book/list}">Back to Book List</a>
-
+    <a th:href="@{/author/list}">Go to author's list</a>
+    <br>
+    <a th:href="@{/book/list}">Go to book's list</a>
 </div>
 </body>
 </html>
