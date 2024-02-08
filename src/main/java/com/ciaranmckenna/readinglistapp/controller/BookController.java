@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -88,6 +89,21 @@ public class BookController {
 
     @PostMapping("/add")
     public String addBook(@ModelAttribute("book") Book book){
+        // Retrieve author data from the form
+        String authorFirstName = book.getAuthor().getFirstName();
+        String authorLastName = book.getAuthor().getLastName();
+
+        // Check if the author already exists in the database
+        Optional<Author> existingAuthor = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+        if (existingAuthor.isPresent()) {
+            // If the author exists, associate the book with the existing author
+            book.setAuthor(existingAuthor.get());
+        } else {
+            // If the author doesn't exist, save the author to the database
+            authorRepository.save(book.getAuthor());
+        }
+
+        // Save the book
         bookService.addBook(book);
         return "redirect:/book/list";
     }
