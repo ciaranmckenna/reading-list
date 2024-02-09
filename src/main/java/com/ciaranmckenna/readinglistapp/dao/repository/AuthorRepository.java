@@ -18,5 +18,7 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
     List<Author> findByLastNameContainingIgnoreCase(String lastName);
 
     Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
+
+    Author findById(Long id);
 }
 
