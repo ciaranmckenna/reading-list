@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String getBookDetails(@PathVariable int id, Model model) throws NotFoundException {
+    public String getBookDetails(@PathVariable Long id, Model model) throws NotFoundException {
         BookRecord bookRecord = bookService.getBookDetails(id);
         model.addAttribute("book", bookRecord);
         return "books/list-books";
@@ -109,7 +109,7 @@ public class BookController {
     }
 
     @GetMapping("/update/{bookId}")
-    public String updateBook(@PathVariable("bookId") int id, Model model) throws NotFoundException {
+    public String updateBook(@PathVariable("bookId") Long id, Model model) throws NotFoundException {
         BookRecord bookById = bookService.findBookById(id);
         model.addAttribute("book", bookById);
         return "books/book-form";
