@@ -5,6 +5,7 @@ import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
+import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> updateBookById(Long id) {
+    public Optional<BookRecord> updateBookById(Long id, Book updateBook) {
         return Optional.empty();
     }
 }
