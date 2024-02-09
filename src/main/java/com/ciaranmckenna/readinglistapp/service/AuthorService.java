@@ -6,6 +6,7 @@ import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AuthorService {
@@ -16,7 +17,12 @@ public interface AuthorService {
 
     List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName);
 
+    Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
+
     Author addAuthor(Author author);
+
+    Author saveNewAuthor(Author author);
+
 
     void deleteAuthorById(int id);
 }

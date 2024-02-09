@@ -5,7 +5,8 @@ import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
-import com.ciaranmckenna.readinglistapp.service.BookServiceImpl;
+import com.ciaranmckenna.readinglistapp.service.AuthorService;
+import com.ciaranmckenna.readinglistapp.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,8 @@ import java.util.Optional;
 @RequestMapping("/books")
 public class BookController {
 
-    private final BookServiceImpl bookService;
+    private final BookService bookService;
+    private final AuthorService authorService;
     private final AuthorRepository authorRepository;
 
     @GetMapping("/list")
@@ -93,13 +95,15 @@ public class BookController {
         String authorLastName = book.getAuthor().getLastName();
 
         // Check if the author already exists in the database
-        Optional<Author> existingAuthor = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+        //Optional<Author> existingAuthor = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+
         if (existingAuthor.isPresent()) {
             // If the author exists, associate the book with the existing author
             book.setAuthor(existingAuthor.get());
         } else {
-            // If the author doesn't exist, save the author to the database
-            authorRepository.save(book.getAuthor());
+            // If the author doesn't exist, save the author to the database, new author no risk of duplicate
+            authorService.saveNewAuthor(book.getAuthor());
         }
 
         // Save the book
