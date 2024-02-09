@@ -15,7 +15,7 @@
 
         <hr>
 
-      <form action="#" th:action="@{/book/add}" th:object="${book}" method="POST">
+      <form action="#" th:action="@{/books/add}" th:object="${book}" method="POST">
 
         <!-- Adding hidden form field to handle the update -->
         <input type="hidden" th:field="*{id}"/>
@@ -40,9 +40,9 @@
       </form>
 
       <hr>
-      <a th:href="@{/book/list}">Go to book's list</a>
+      <a th:href="@{/books/list}">Go to book's list</a>
       <br>
-      <a th:href="@{/author/list}">Go to author's list</a>
+      <a th:href="@{/authors/list}">Go to author's list</a>
     </div>
 
 </body>

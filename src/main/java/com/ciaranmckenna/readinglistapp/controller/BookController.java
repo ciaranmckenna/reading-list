@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/book")
+@RequestMapping("/books")
 public class BookController {
 
     private final BookServiceImpl bookService;
@@ -105,7 +105,7 @@ public class BookController {
 
         // Save the book
         bookService.addBook(book);
-        return "redirect:/book/list";
+        return "redirect:/books/list";
     }
 
     @GetMapping("/update/{bookId}")
@@ -118,7 +118,7 @@ public class BookController {
     @GetMapping("/delete/{bookId}")
     public String deleteBook(@PathVariable("bookId") int id){
         bookService.deleteBookById(id);
-        return "redirect:/book/list";
+        return "redirect:/books/list";
     }
 
     @ExceptionHandler()

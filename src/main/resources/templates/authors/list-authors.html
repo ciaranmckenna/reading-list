@@ -22,12 +22,12 @@
   </a>
 
   <!--  Add an author button-->
-  <a th:href="@{/author/registration}"
+  <a th:href="@{/authors/registration}"
      class="btn btn-primary btn-sm mb-3">
     Add
   </a>
 
-  <a th:href="@{/author/search}"
+  <a th:href="@{/authors/search}"
      class="btn btn-primary btn-sm mb-3">
     Find
   </a>
@@ -48,13 +48,13 @@
 
       <td>
         <!--add update button link-->
-        <a th:if="${tempAuthor.id != null}" th:href="@{/author/update/{authorId}(authorId=${tempAuthor.id})}"
+        <a th:if="${tempAuthor.id != null}" th:href="@{/authors/update/{authorId}(authorId=${tempAuthor.id})}"
            class="btn btn-primary btn-sm mb-3">
           Update
         </a>
 
         <!--add delete button link-->
-        <a th:if="${tempAuthor.id != null}" th:href="@{/author/delete/{authorId}(authorId=${tempAuthor.id})}"
+        <a th:if="${tempAuthor.id != null}" th:href="@{/authors/delete/{authorId}(authorId=${tempAuthor.id})}"
            class="btn btn-danger btn-sm mb-3"
            onclick="if (!(confirm('Are you sure you want to delete this author?'))) return false">
           Delete
@@ -70,9 +70,9 @@
   </table>
 
   <hr>
-  <a th:href="@{/book/list}">Go to book's list</a>
+  <a th:href="@{/books/list}">Go to book's list</a>
   <br>
-  <a th:href="@{/author/list}">Go to author's list</a>
+  <a th:href="@{/authors/list}">Go to author's list</a>
 </div>
 </body>
 </html>
