@@ -5,7 +5,6 @@ import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
-import com.ciaranmckenna.readinglistapp.service.AuthorServiceImpl;
 import com.ciaranmckenna.readinglistapp.service.BookServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
