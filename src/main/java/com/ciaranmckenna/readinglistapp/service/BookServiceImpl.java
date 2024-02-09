@@ -5,6 +5,7 @@ import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
+import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookRecord findBookById(int id) throws NotFoundException {
-        Optional<Book> optionalBook = bookRepository.findById(id);
+    public BookRecord findBookById(Long id) throws NotFoundException {
+        Optional<Book> optionalBook = Optional.ofNullable(bookRepository.findById(id));
         if (optionalBook.isPresent()) {
             return Mapper.mapBookEntityToBookRecord(optionalBook.get());
         } else {
@@ -51,8 +52,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookRecord getBookDetails(int id) {
-        Optional<Book> currentBook = bookRepository.findById(id);
+    public BookRecord getBookDetails(Long id) {
+        Optional<Book> currentBook = Optional.ofNullable(bookRepository.findById(id));
         return currentBook.map(Mapper::mapBookEntityToBookRecord).orElse(null);
     }
 
@@ -70,5 +71,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBookById(int id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<BookRecord> updateBookById(Long id, Book updateBook) {
+        return Optional.empty();
     }
 }

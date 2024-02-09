@@ -6,19 +6,21 @@ import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface BookService {
 
     List<BookRecord> findAllBooks();
 
-    BookRecord findBookById(int id) throws NotFoundException;
+    BookRecord findBookById(Long id) throws NotFoundException;
 
     List<BookRecord> findByTitleContainingIgnoreCase(String title);
 
-    BookRecord getBookDetails(int id) throws NotFoundException;
+    BookRecord getBookDetails(Long id) throws NotFoundException;
 
     Book addBook(Book book);
 
     void deleteBookById(int id);
+    Optional<BookRecord> updateBookById(Long id, Book book);
 }
