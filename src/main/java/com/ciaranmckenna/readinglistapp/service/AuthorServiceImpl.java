@@ -45,6 +45,11 @@ public class AuthorServiceImpl implements AuthorService {
         return mapToAuthorRecordList(authors);
     }
 
+    @Override
+    public Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName) {
+        return authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
+    }
+
     private List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {
         return authors.stream()
                 .map(Mapper::mapAuthorEntityToAuthorRecord)
@@ -62,6 +67,11 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> existingAuthor = findAuthorByFirstNameAndLastName(author.getFirstName(), author.getLastName());
 
         return existingAuthor.orElseGet(() -> authorRepository.save(author));
+    }
+
+    @Override
+    public Author saveNewAuthor(Author author) {
+       return authorRepository.save(author);
     }
 
     public Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName) {
