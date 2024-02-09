@@ -15,7 +15,7 @@
 
         <hr>
 
-      <form action="#" th:action="@{/author/name}"
+      <form action="#" th:action="@{/authors/name}"
                         th:object="${author}" method="GET">
 
         <input type="text" th:field="*{firstName}"
@@ -30,9 +30,9 @@
       </form>
 
       <hr>
-      <a th:href="@{/book/list}">Go to book's list</a>
+      <a th:href="@{/books/list}">Go to book's list</a>
       <br>
-      <a th:href="@{/author/list}">Go to author's list</a>
+      <a th:href="@{/authors/list}">Go to author's list</a>
     </div>
 
 </body>

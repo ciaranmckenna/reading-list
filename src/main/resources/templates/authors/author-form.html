@@ -17,7 +17,7 @@
 
   <p class="h4 mb-4">Save Author</p>
 
-  <form action="#" th:action="@{/author/add}"
+  <form action="#" th:action="@{/authors/add}"
                     th:object="${author}" method="POST">
 
     <!--Adding hidden form field to handle the update-->
@@ -34,9 +34,9 @@
   </form>
 
   <hr>
-  <a th:href="@{/book/list}">Go to book's list</a>
+  <a th:href="@{/books/list}">Go to book's list</a>
   <br>
-  <a th:href="@{/author/list}">Go to author's list</a>
+  <a th:href="@{/authors/list}">Go to author's list</a>
 </div>
 
 </body>

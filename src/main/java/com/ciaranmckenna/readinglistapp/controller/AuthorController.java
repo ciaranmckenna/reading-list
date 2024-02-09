@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/author")
+@RequestMapping("/authors")
 public class AuthorController {
 
     private final AuthorServiceImpl authorService;
@@ -71,7 +71,7 @@ public class AuthorController {
     @PostMapping("/add")
     public String addAuthor(@ModelAttribute("author") Author author){
         authorService.addAuthor(author);
-        return "redirect:/author/list";
+        return "redirect:/authors/list";
     }
 
     @GetMapping("/update/{authorId}")
@@ -84,6 +84,6 @@ public class AuthorController {
     @GetMapping("/delete/{authorId}")
     public String deleteAuthor(@PathVariable("authorId") int id){
         authorService.deleteAuthorById(id);
-        return "redirect:/author/list";
+        return "redirect:/authors/list";
     }
 }
