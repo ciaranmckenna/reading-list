@@ -1,15 +1,15 @@
 package com.ciaranmckenna.readinglistapp.dao.repository;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
-import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitleContainingIgnoreCase(String title);
-    Book findById(Long id);
+    Optional<Book> findById(Long id);
 }

@@ -33,7 +33,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public String findAuthorById(@PathVariable int id, Model model) throws NotFoundException {
+    public String findAuthorById(@PathVariable Long id, Model model) throws NotFoundException {
         Author authorById = authorService.findAuthorById(id);
         if (authorById != null){
             model.addAttribute("author", authorById);
@@ -75,14 +75,14 @@ public class AuthorController {
     }
 
     @GetMapping("/update/{authorId}")
-    public String updateAuthor(@PathVariable("authorId") int id, Model model) throws NotFoundException {
+    public String updateAuthor(@PathVariable("authorId") Long id, Model model) throws NotFoundException {
         Author authorById = authorService.findAuthorById(id);
         model.addAttribute("author", authorById);
         return "authors/author-form";
     }
 
     @GetMapping("/delete/{authorId}")
-    public String deleteAuthor(@PathVariable("authorId") int id){
+    public String deleteAuthor(@PathVariable("authorId") Long id){
         authorService.deleteAuthorById(id);
         return "redirect:/authors/list";
     }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, Integer> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
     @Query("SELECT a FROM Author a WHERE LOWER(a.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) AND LOWER(a.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))")
     List<Author> findByFirstNameOrLastName(@Param("firstName") String firstName, @Param("lastName") String lastName);
 
@@ -19,6 +19,6 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 
-    Author findById(Long id);
+    Optional<Author> findById(Long id);
 }
 
