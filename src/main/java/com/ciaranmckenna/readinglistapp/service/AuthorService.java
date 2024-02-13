@@ -13,7 +13,7 @@ public interface AuthorService {
 
     List<AuthorRecord> findAllAuthors();
 
-    Author findAuthorById(int id) throws NotFoundException;
+    Author findAuthorById(Long id) throws NotFoundException;
 
     List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName);
 
@@ -24,5 +24,5 @@ public interface AuthorService {
     Author saveNewAuthor(Author author);
 
 
-    void deleteAuthorById(int id);
+    void deleteAuthorById(Long id);
 }

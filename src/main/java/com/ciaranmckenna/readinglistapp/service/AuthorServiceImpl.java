@@ -57,7 +57,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author findAuthorById(int id) throws NotFoundException {
+    public Author findAuthorById(Long id) throws NotFoundException {
         Optional<Author> optionalAuthorId = authorRepository.findById(id);
         return optionalAuthorId.orElseThrow(() -> new NotFoundException("No author id found"));
     }
@@ -79,7 +79,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteAuthorById(int id){
+    public void deleteAuthorById(Long id){
         authorRepository.deleteById(id);
     }
 }

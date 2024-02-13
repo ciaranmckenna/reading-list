@@ -33,9 +33,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookRecord findBookById(Long id) throws NotFoundException {
-        Optional<Book> optionalBook = Optional.ofNullable(bookRepository.findById(id));
+        Optional<Optional<Book>> optionalBook = Optional.ofNullable(bookRepository.findById(id));
         if (optionalBook.isPresent()) {
-            return Mapper.mapBookEntityToBookRecord(optionalBook.get());
+            return Mapper.mapBookEntityToBookRecord(optionalBook.get().get());
         } else {
             String errorMessage = String.format("No book id: %s found", id);
             log.info(errorMessage);
@@ -53,8 +53,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookRecord getBookDetails(Long id) {
-        Optional<Book> currentBook = Optional.ofNullable(bookRepository.findById(id));
-        return currentBook.map(Mapper::mapBookEntityToBookRecord).orElse(null);
+        Optional<Optional<Book>> currentBook = Optional.ofNullable(bookRepository.findById(id));
+        return currentBook.map((Optional<Book> book) -> Mapper.mapBookEntityToBookRecord(book.get())).orElse(null);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteBookById(int id) {
+    public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
     }
 
