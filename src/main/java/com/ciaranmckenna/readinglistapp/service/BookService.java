@@ -1,5 +1,6 @@
 package com.ciaranmckenna.readinglistapp.service;
 
+import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
@@ -13,7 +14,9 @@ public interface BookService {
 
     List<BookRecord> findAllBooks();
 
-    BookRecord findBookById(Long id) throws NotFoundException;
+    BookRecord findBookRecordById(Long id) throws NotFoundException;
+
+    Optional<Book> findBookById(Long id) throws NotFoundException;
 
     List<BookRecord> findByTitleContainingIgnoreCase(String title);
 
@@ -21,6 +24,10 @@ public interface BookService {
 
     Book addBook(Book book);
 
+    Book saveUpdatedBook(Book book);
+
+    //Book updateBook(Book book);
+
     void deleteBookById(Long id);
-    Optional<BookRecord> updateBookById(Long id, Book book);
+    Optional<Book> updateBookById(Long id, Book book);
 }

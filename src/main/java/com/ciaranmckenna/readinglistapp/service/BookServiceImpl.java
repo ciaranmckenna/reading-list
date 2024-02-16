@@ -1,11 +1,12 @@
 package com.ciaranmckenna.readinglistapp.service;
 
+import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
+import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
-import lombok.Lombok;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public List<BookRecord> findAllBooks(){
@@ -32,7 +34,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookRecord findBookById(Long id) throws NotFoundException {
+    public BookRecord findBookRecordById(Long id) throws NotFoundException {
         Optional<Optional<Book>> optionalBook = Optional.ofNullable(bookRepository.findById(id));
         if (optionalBook.isPresent()) {
             return Mapper.mapBookEntityToBookRecord(optionalBook.get().get());
@@ -41,6 +43,11 @@ public class BookServiceImpl implements BookService {
             log.info(errorMessage);
             throw new NotFoundException(errorMessage);
         }
+    }
+
+    @Override
+    public Optional<Book> findBookById(Long id) throws NotFoundException {
+        return bookRepository.findById(id);
     }
 
     @Override
@@ -59,14 +66,20 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) {
-        List<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
+        Optional<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
 
-        if (!listTitleContaining.isEmpty()){
-            return listTitleContaining.get(0);
+        if (listTitleContaining.isPresent()){
+            return listTitleContaining.get();
         }else {
             return bookRepository.save(book);
         }
     }
+
+    @Override
+    public Book saveUpdatedBook(Book book) {
+            return bookRepository.save(book);
+    }
+
 
     @Override
     public void deleteBookById(Long id) {
@@ -74,7 +87,34 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<BookRecord> updateBookById(Long id, Book updateBook) {
-        return Optional.empty();
+    public Optional<Book> updateBookById(Long id, Book updateBook) {
+        // Retrieve the existing book from the database by its id
+        Optional<Book> existingBookId = bookRepository.findById(id);
+
+        // Check if the book with the specified id exists in the database
+        if (existingBookId.isPresent()) {
+            // Get the existing book from the Optional
+            Book existingBook = existingBookId.get();
+
+            // Update the properties of the existing book
+            existingBook.setTitle(updateBook.getTitle());
+            existingBook.setCategory(updateBook.getCategory());
+
+            // Update author details if provided
+            if (updateBook.getAuthor() != null) {
+                existingBook.getAuthor().setFirstName(updateBook.getAuthor().getFirstName());
+                existingBook.getAuthor().setLastName(updateBook.getAuthor().getLastName());
+                // Update other properties of the Author as needed
+            }
+
+            // Save the updated book record to the database
+            Book updatedBook = bookRepository.save(existingBook);
+
+            // Return the updated book wrapped in an Optional
+            return Optional.of(updatedBook);
+        } else {
+            // If the book record with the specified id doesn't exist, return an empty Optional
+            return Optional.empty();
+        }
     }
 }
