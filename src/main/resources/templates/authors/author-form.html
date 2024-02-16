@@ -17,8 +17,7 @@
 
   <p class="h4 mb-4">Save Author</p>
 
-  <form action="#" th:action="@{/authors/add}"
-                    th:object="${author}" method="POST">
+  <form action="#" th:action="@{/authors/add}" th:object="${author}" method="POST">
 
     <!--Adding hidden form field to handle the update-->
     <input type="hidden" th:field="*{id}"/>

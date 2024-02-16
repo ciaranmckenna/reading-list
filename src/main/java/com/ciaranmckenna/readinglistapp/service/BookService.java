@@ -13,7 +13,9 @@ public interface BookService {
 
     List<BookRecord> findAllBooks();
 
-    BookRecord findBookById(Long id) throws NotFoundException;
+    BookRecord findBookRecordById(Long id) throws NotFoundException;
+
+    Optional<Book> findBookById(Long id) throws NotFoundException;
 
     List<BookRecord> findByTitleContainingIgnoreCase(String title);
 
@@ -21,6 +23,10 @@ public interface BookService {
 
     Book addBook(Book book);
 
+    Book saveUpdatedBook(Book book);
+
+    Book checkWhichBookToBeSaved(Book book) throws NotFoundException;
+
     void deleteBookById(Long id);
-    Optional<BookRecord> updateBookById(Long id, Book book);
+    Optional<Book> updateBookById(Long id, Book book);
 }

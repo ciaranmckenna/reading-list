@@ -2,12 +2,13 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
-import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
-import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
+import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.service.AuthorService;
 import com.ciaranmckenna.readinglistapp.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,9 @@ public class BookController {
 
     private final BookService bookService;
     private final AuthorService authorService;
-    private final AuthorRepository authorRepository;
+
+    private static final Logger logger = LogManager.getLogger(BookController.class);
+
 
     @GetMapping("/list")
     public String findAllBooks(Model model) {
@@ -66,7 +69,7 @@ public class BookController {
     @GetMapping("/registration")
     public String showFormForAdd(Model model){
         // Populate the model with the list of authors
-        List<Author> authors = authorRepository.findAll();
+        List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
 
         // Add an empty Book object to bind form data
@@ -76,46 +79,23 @@ public class BookController {
         return "books/book-form";
     }
 
-    @GetMapping("/add")
-    public String showAddBookForm(Model model) {
-        // Populate the model with the list of authors
-        List<Author> authors = authorRepository.findAll();
-        model.addAttribute("authors", authors);
-
-        // Add an empty Book object to bind form data
-        model.addAttribute("book", new Book());
-
-        return "books/book-form";
-    }
-
-    @PostMapping("/add")
+    @PostMapping("/add") // two endpoints that are the same --- question this?
     public String addBook(@ModelAttribute("book") Book book){
-        // Retrieve author data from the form
-        String authorFirstName = book.getAuthor().getFirstName();
-        String authorLastName = book.getAuthor().getLastName();
-
-        // Check if the author already exists in the database
-        //Optional<Author> existingAuthor = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
-        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
-
-        if (existingAuthor.isPresent()) {
-            // If the author exists, associate the book with the existing author
-            book.setAuthor(existingAuthor.get());
-        } else {
-            // If the author doesn't exist, save the author to the database, new author no risk of duplicate
-            authorService.saveNewAuthor(book.getAuthor());
-        }
-
-        // Save the book
         bookService.addBook(book);
         return "redirect:/books/list";
     }
 
-    @GetMapping("/update/{bookId}")
-    public String updateBook(@PathVariable("bookId") Long id, Model model) throws NotFoundException {
-        BookRecord bookById = bookService.findBookById(id);
-        model.addAttribute("book", bookById);
-        return "books/book-form";
+    @GetMapping("/update") // should i change bookId to id
+    public String showBookUpdateForm(@RequestParam("id") Long id, Model model) throws NotFoundException {
+        Optional<Book> book = bookService.findBookById(id); // returning a book entity object as that's what was entered originally
+        model.addAttribute("book", book);
+        return "books/book-update";
+    }
+
+    @PostMapping("/updateBook") // two endpoints that are the same --- question this?
+    public String updateBook(@ModelAttribute("book") Book book) throws NotFoundException {
+        bookService.checkWhichBookToBeSaved(book);
+        return "redirect:/books/list";
     }
 
     @GetMapping("/delete/{bookId}")

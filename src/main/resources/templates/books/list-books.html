@@ -48,7 +48,7 @@
 
             <!--add update button link-->
             <td>
-                <a th:if="${tempBook.id != null}" th:href="@{/books/update/{bookId}(bookId=${tempBook.id})}"
+                <a th:if="${tempBook.id != null}" th:href="@{/books/update(id=${tempBook.id})}"
                    class="btn btn-primary btn-sm mb-3">
                     Update
                 </a>

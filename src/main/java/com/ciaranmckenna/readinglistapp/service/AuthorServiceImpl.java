@@ -30,6 +30,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public List<Author> findAll() {
+        return authorRepository.findAll();
+    }
+
+    @Override
     public List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName) {
         List<Author> authors;
         if (firstName != null && !firstName.isEmpty()) {

@@ -13,6 +13,8 @@ public interface AuthorService {
 
     List<AuthorRecord> findAllAuthors();
 
+    List<Author> findAll();
+
     Author findAuthorById(Long id) throws NotFoundException;
 
     List<AuthorRecord> findByAuthorNameContainingIgnoreCase(String firstName, String lastName);
