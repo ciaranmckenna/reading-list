@@ -1,6 +1,5 @@
 package com.ciaranmckenna.readinglistapp.service;
 
-import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
@@ -26,7 +25,7 @@ public interface BookService {
 
     Book saveUpdatedBook(Book book);
 
-    //Book updateBook(Book book);
+    Book checkWhichBookToBeSaved(Book book) throws NotFoundException;
 
     void deleteBookById(Long id);
     Optional<Book> updateBookById(Long id, Book book);

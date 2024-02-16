@@ -23,6 +23,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
 
     @Override
     public List<BookRecord> findAllBooks(){
@@ -66,6 +67,23 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) {
+
+        // Retrieve author data from the form
+        String authorFirstName = book.getAuthor().getFirstName();
+        String authorLastName = book.getAuthor().getLastName();
+        // this logic should be performed in the service refactor when fixed
+        // Check if the author already exists in the database
+        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+        // my update problem resides here
+        if (existingAuthor.isPresent()) {
+            // If the author exists, associate the book with the existing author
+            book.setAuthor(existingAuthor.get());
+        } else {
+            // If the author doesn't exist, save the author to the database, new author no risk of duplicate
+            authorService.saveNewAuthor(book.getAuthor());
+        }
+
+        // check to see if title already exists
         Optional<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
 
         if (listTitleContaining.isPresent()){
@@ -78,6 +96,39 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book saveUpdatedBook(Book book) {
             return bookRepository.save(book);
+    }
+
+    @Override
+    public Book checkWhichBookToBeSaved(Book book) throws NotFoundException {
+        // Retrieve id and author data from the form
+        Long bookId = book.getId();
+        String authorFirstName = book.getAuthor().getFirstName();
+        String authorLastName = book.getAuthor().getLastName();
+        // Check if the author already exists in the database
+        Optional<Book> existingId = findBookById(bookId);
+        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+
+        // my update problem resides here
+        if (existingAuthor.isPresent()) {
+            // If the author exists, associate the book with the existing author
+            book.setAuthor(existingAuthor.get());
+        } else {
+            // If the author doesn't exist, save the author to the database, this will be a new author so no risk of a duplication
+            authorService.saveNewAuthor(book.getAuthor());
+        }
+
+        if (existingId.isPresent()){
+            book.setTitle(book.getTitle());
+            book.setAuthor(book.getAuthor());
+            return saveUpdatedBook(book);
+        }
+
+        // Save the book
+        if (existingId.isEmpty()){
+            return addBook(book);
+        }
+        // returning a default empty book - this line should never be reached
+        return new Book();
     }
 
 

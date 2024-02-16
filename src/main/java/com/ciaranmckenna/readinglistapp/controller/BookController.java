@@ -2,13 +2,13 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
-import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
-import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
-import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
+import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.service.AuthorService;
 import com.ciaranmckenna.readinglistapp.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -83,34 +81,12 @@ public class BookController {
 
     @PostMapping("/add") // two endpoints that are the same --- question this?
     public String addBook(@ModelAttribute("book") Book book){
-        // Retrieve author data from the form
-        String authorFirstName = book.getAuthor().getFirstName();
-        String authorLastName = book.getAuthor().getLastName();
-        // this logic should be performed in the service refactor when fixed
-        // Check if the author already exists in the database
-        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
-        // my update problem resides here
-        if (existingAuthor.isPresent()) {
-            // If the author exists, associate the book with the existing author
-            book.setAuthor(existingAuthor.get());
-        } else {
-            // If the author doesn't exist, save the author to the database, new author no risk of duplicate
-            authorService.saveNewAuthor(book.getAuthor());
-        }
-
-        // Save the book
         bookService.addBook(book);
         return "redirect:/books/list";
     }
 
     @GetMapping("/update") // should i change bookId to id
     public String showBookUpdateForm(@RequestParam("id") Long id, Model model) throws NotFoundException {
-        //BookRecord bookById = bookService.findBookById(id);
-        if (id != null) {
-            logger.debug("DEBUG ERROR CHECK CIARAN --------------{id} : ", id);
-        } else {
-            logger.debug("DEBUG ERROR CHECK CIARAN -------------- Book ID is null");
-        }
         Optional<Book> book = bookService.findBookById(id); // returning a book entity object as that's what was entered originally
         model.addAttribute("book", book);
         return "books/book-update";
@@ -118,43 +94,9 @@ public class BookController {
 
     @PostMapping("/updateBook") // two endpoints that are the same --- question this?
     public String updateBook(@ModelAttribute("book") Book book) throws NotFoundException {
-        // Retrieve id and author data from the form
-        Long bookId = book.getId();
-        String authorFirstName = book.getAuthor().getFirstName();
-        String authorLastName = book.getAuthor().getLastName();
-        // this logic should be performed in the service refactor when fixed
-        // Check if the author already exists in the database
-        Optional<Book> existingId = bookService.findBookById(bookId);
-        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
-
-
-        // my update problem resides here
-        if (existingAuthor.isPresent()) {
-            // If the author exists, associate the book with the existing author
-            book.setAuthor(existingAuthor.get());
-        } else {
-            // If the author doesn't exist, save the author to the database, this will be a new author so no risk of a duplication
-            authorService.saveNewAuthor(book.getAuthor());
-        }
-
-        if (existingId.isPresent()){
-            book.setTitle(book.getTitle());
-            book.setAuthor(book.getAuthor());
-            bookService.saveUpdatedBook(book);
-        }
-
-        // Save the book
-        if (existingId.isEmpty()){
-            bookService.addBook(book); // what is the value of the argument book at this point
-        }
+        bookService.checkWhichBookToBeSaved(book);
         return "redirect:/books/list";
     }
-
-//    @PostMapping("/update/{id}")
-//    public String updateBook(@PathVariable("id") Long id, @ModelAttribute("book") Book book){
-//        bookService.updateBookById(id, book);
-//        return "redirect:/books/list";
-//    }
 
     @GetMapping("/delete/{bookId}")
     public String deleteBook(@PathVariable("bookId") Long id){
