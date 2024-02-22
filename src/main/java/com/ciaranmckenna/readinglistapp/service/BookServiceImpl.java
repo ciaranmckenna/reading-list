@@ -69,7 +69,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) {
-
         // Retrieve author data from the form
         String authorFirstName = book.getAuthor().getFirstName();
         String authorLastName = book.getAuthor().getLastName();

@@ -26,7 +26,7 @@
         <input type="text" id="authorFirstName" th:field="*{author.firstName}" class="form-control mb4 w-25" placeholder="Author's First Name">
         <input type="text" id="authorLastName" th:field="*{author.lastName}" class="form-control mb4 w-25" placeholder="Author's Last Name">
         <br>
-        <p>    Or select author from list</p>
+        <p>    Or select author from list using the button to confirm</p>
         <!-- Dropdown menu for selecting authors -->
         <select id="authorDropdown" class="form-control mb4 w-25" onchange="fillAuthorData()">
           <option value="" selected>-- Select Author --</option>
@@ -43,7 +43,7 @@
         <!-- Text boxes for the category -->
         <input type="text" id="category" th:field="*{category.name}" class="form-control mb4 w-25" placeholder="Category">
         <br>
-        <p>    Or select category from list</p>
+        <p>    Or select category from list using the button to confirm</p>
         <!-- Dropdown menu for selecting authors -->
         <select id="categoryDropdown" class="form-control mb4 w-25" onchange="fillCategoryData()">
           <option value="" selected>-- Select Category --</option>
@@ -94,7 +94,7 @@
 
     var selectedCategoryIndex = dropdown.selectedIndex;
     if (selectedCategoryIndex > 0) {
-      var selectedCategory = dropdown.options[selectedCategoryIndex];
+      var selectedCategory = dropdown.options[selectedCategoryIndex].text;
       categoryTextbox.value = selectedCategory;
     } else {
       categoryTextbox.value = "";
