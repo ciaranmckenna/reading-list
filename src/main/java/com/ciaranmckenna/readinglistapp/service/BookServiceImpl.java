@@ -69,11 +69,36 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(Book book) {
+        retrieveAuthorData(book);
+
+        retrieveCategoryData(book);
+
+        // check to see if title already exists
+            Optional<Book> existingTitle = bookRepository.findByTitleContainingIgnoreCase(book.getTitle()); // fails if title is empty
+
+            if (existingTitle.isPresent()) {
+                return existingTitle.get();
+            } else {
+                return bookRepository.save(book);
+            }
+        }
+
+    private void retrieveCategoryData(Book book) {
+        // Retrieve category data from the form
+        //String categoryName = book.getCategory().getName();
+        Optional<Category> category = categoryService.findByCategoryNameIgnoreCase(book.getCategory().getName());
+        if (category.isPresent()) {
+            book.setCategory(category.get());
+        } else {
+            categoryService.saveNewCategory(book.getCategory());
+        }
+    }
+
+    private void retrieveAuthorData(Book book) {
         // Retrieve author data from the form
         String authorFirstName = book.getAuthor().getFirstName();
         String authorLastName = book.getAuthor().getLastName();
 
-        // this logic should be performed in a checking method that performs all of this
         // Check if the author already exists in the database
         Optional<Author> author = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
         if (author.isPresent()) {
@@ -84,25 +109,7 @@ public class BookServiceImpl implements BookService {
             // this needs to be done before saving a book as it is part of a book
             authorService.saveNewAuthor(book.getAuthor());
         }
-
-        // Retrieve category data from the form
-        //String categoryName = book.getCategory().getName();
-        Optional<Category> category = categoryService.findByCategoryNameIgnoreCase(book.getCategory().getName());
-        if (category.isPresent()) {
-            book.setCategory(category.get());
-        } else {
-            categoryService.saveNewCategory(book.getCategory());
-        }
-
-            // check to see if title already exists
-            Optional<Book> existingTitle = bookRepository.findByTitleContainingIgnoreCase(book.getTitle()); // fails if title is empty
-
-            if (existingTitle.isPresent()) {
-                return existingTitle.get();
-            } else {
-                return bookRepository.save(book);
-            }
-        }
+    }
 
     @Override
     public Book saveUpdatedBook(Book book) {
