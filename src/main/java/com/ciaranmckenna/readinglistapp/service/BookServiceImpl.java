@@ -2,9 +2,10 @@ package com.ciaranmckenna.readinglistapp.service;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
-import com.ciaranmckenna.readinglistapp.dao.repository.AuthorRepository;
+import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dao.repository.BookRepository;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
+import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
     private final AuthorService authorService;
+    private final CategoryService categoryService;
+
 
     @Override
     public List<BookRecord> findAllBooks(){
@@ -71,27 +73,37 @@ public class BookServiceImpl implements BookService {
         // Retrieve author data from the form
         String authorFirstName = book.getAuthor().getFirstName();
         String authorLastName = book.getAuthor().getLastName();
-        // this logic should be performed in the service refactor when fixed
+
+        // this logic should be performed in a checking method that performs all of this
         // Check if the author already exists in the database
-        Optional<Author> existingAuthor = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
-        // my update problem resides here
-        if (existingAuthor.isPresent()) {
+        Optional<Author> author = authorService.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorFirstName, authorLastName);
+        if (author.isPresent()) {
             // If the author exists, associate the book with the existing author
-            book.setAuthor(existingAuthor.get());
+            book.setAuthor(author.get());
         } else {
             // If the author doesn't exist, save the author to the database, new author no risk of duplicate
+            // this needs to be done before saving a book as it is part of a book
             authorService.saveNewAuthor(book.getAuthor());
         }
 
-        // check to see if title already exists
-        Optional<Book> listTitleContaining = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
-
-        if (listTitleContaining.isPresent()){
-            return listTitleContaining.get();
-        }else {
-            return bookRepository.save(book);
+        // Retrieve category data from the form
+        //String categoryName = book.getCategory().getName();
+        Optional<Category> category = categoryService.findByCategoryNameIgnoreCase(book.getCategory().getName());
+        if (category.isPresent()) {
+            book.setCategory(category.get());
+        } else {
+            categoryService.saveNewCategory(book.getCategory());
         }
-    }
+
+            // check to see if title already exists
+            Optional<Book> existingTitle = bookRepository.findByTitleContainingIgnoreCase(book.getTitle()); // fails if title is empty
+
+            if (existingTitle.isPresent()) {
+                return existingTitle.get();
+            } else {
+                return bookRepository.save(book);
+            }
+        }
 
     @Override
     public Book saveUpdatedBook(Book book) {

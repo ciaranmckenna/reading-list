@@ -25,6 +25,5 @@ public interface AuthorService {
 
     Author saveNewAuthor(Author author);
 
-
     void deleteAuthorById(Long id);
 }

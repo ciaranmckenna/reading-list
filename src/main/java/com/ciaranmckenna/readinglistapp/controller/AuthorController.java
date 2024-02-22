@@ -52,8 +52,8 @@ public class AuthorController {
     public String findAuthorByNameContaining(@RequestParam String firstName, @RequestParam String lastName, Model model){
 
         if (firstName.isEmpty() && lastName.isEmpty()) {
-            firstName = ""; // empty String signifies broadest possible search
-            lastName = ""; // empty String signifies broadest possible search
+            firstName = "";
+            lastName = "";
 
         }
         List<AuthorRecord> authorNameContaining = authorService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
