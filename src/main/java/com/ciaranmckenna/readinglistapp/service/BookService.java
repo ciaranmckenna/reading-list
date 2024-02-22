@@ -25,8 +25,7 @@ public interface BookService {
 
     Book saveUpdatedBook(Book book);
 
-    Book checkWhichBookToBeSaved(Book book) throws NotFoundException;
+    Book updateBook(Book book) throws NotFoundException;
 
     void deleteBookById(Long id);
-    Optional<Book> updateBookById(Long id, Book book);
 }

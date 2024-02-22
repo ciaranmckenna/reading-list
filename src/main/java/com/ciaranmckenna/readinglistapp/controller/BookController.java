@@ -100,7 +100,7 @@ public class BookController {
 
     @PostMapping("/updateBook")
     public String updateBook(@ModelAttribute("book") Book book) throws NotFoundException {
-        bookService.checkWhichBookToBeSaved(book);
+        bookService.updateBook(book);
         return "redirect:/books/list";
     }
 
