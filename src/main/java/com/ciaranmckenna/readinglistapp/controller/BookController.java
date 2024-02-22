@@ -2,10 +2,12 @@ package com.ciaranmckenna.readinglistapp.controller;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
+import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.service.AuthorService;
 import com.ciaranmckenna.readinglistapp.service.BookService;
+import com.ciaranmckenna.readinglistapp.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +26,7 @@ public class BookController {
 
     private final BookService bookService;
     private final AuthorService authorService;
+    private final CategoryService categoryService;
 
     private static final Logger logger = LogManager.getLogger(BookController.class);
 
@@ -72,6 +75,9 @@ public class BookController {
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
 
+        List<Category> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
+
         // Add an empty Book object to bind form data
         Book book = new Book();
         model.addAttribute("book", book);
@@ -79,20 +85,20 @@ public class BookController {
         return "books/book-form";
     }
 
-    @PostMapping("/add") // two endpoints that are the same --- question this?
+    @PostMapping("/add")
     public String addBook(@ModelAttribute("book") Book book){
         bookService.addBook(book);
         return "redirect:/books/list";
     }
 
-    @GetMapping("/update") // should i change bookId to id
+    @GetMapping("/update")
     public String showBookUpdateForm(@RequestParam("id") Long id, Model model) throws NotFoundException {
         Optional<Book> book = bookService.findBookById(id); // returning a book entity object as that's what was entered originally
         model.addAttribute("book", book);
         return "books/book-update";
     }
 
-    @PostMapping("/updateBook") // two endpoints that are the same --- question this?
+    @PostMapping("/updateBook")
     public String updateBook(@ModelAttribute("book") Book book) throws NotFoundException {
         bookService.checkWhichBookToBeSaved(book);
         return "redirect:/books/list";

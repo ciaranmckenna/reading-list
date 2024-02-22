@@ -69,7 +69,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addAuthor(Author author) {
-        Optional<Author> existingAuthor = findAuthorByFirstNameAndLastName(author.getFirstName(), author.getLastName());
+        Optional<Author> existingAuthor = findAuthorByFirstNameAndLastName(author.getFirstName(), author.getLastName()); // replace with findByFirstNameIgnoreCaseAndLastNameIgnoreCase
 
         return existingAuthor.orElseGet(() -> authorRepository.save(author));
     }
@@ -79,7 +79,7 @@ public class AuthorServiceImpl implements AuthorService {
        return authorRepository.save(author);
     }
 
-    public Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName) {
+    public Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName) { /// change ... this method will be redundant
         return authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
     }
 
