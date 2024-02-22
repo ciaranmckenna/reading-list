@@ -26,14 +26,8 @@
         <input type="text" id="authorFirstName" th:field="*{author.firstName}" class="form-control mb4 w-25" placeholder="Author's First Name">
         <input type="text" id="authorLastName" th:field="*{author.lastName}" class="form-control mb4 w-25" placeholder="Author's Last Name">
 
-        <!-- Dropdown menu for selecting authors -->
-        <select id="authorDropdown" class="form-control mb4 w-25" onchange="fillAuthorData()">
-          <option value="" selected>-- Select Author --</option>
-          <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.firstName + ' ' + author.lastName}"></option>
-        </select>
-
-        <!-- Button to copy selected author's data -->
-        <button type="button" class="btn btn-info col-2" onclick="copyAuthorData()">Select author</button>
+        <!-- Text boxes for the category -->
+        <input type="text" id="category" th:field="*{category.name}" class="form-control mb4 w-25" placeholder="Category">
 
         <!-- Submit button -->
         <button type="submit" class="btn btn-info col-2">Save</button>
@@ -48,22 +42,3 @@
 
 </body>
 </html>
-
-<script>
-  function copyAuthorData() {
-    var dropdown = document.getElementById("authorDropdown");
-    var authorFirstNameTextbox = document.getElementById("authorFirstName");
-    var authorLastNameTextbox = document.getElementById("authorLastName");
-
-    var selectedAuthorIndex = dropdown.selectedIndex;
-    if (selectedAuthorIndex > 0) {
-      var selectedAuthor = dropdown.options[selectedAuthorIndex];
-      var authorFullName = selectedAuthor.text.split(" ");
-      authorFirstNameTextbox.value = authorFullName[0];
-      authorLastNameTextbox.value = authorFullName[1];
-    } else {
-      authorFirstNameTextbox.value = "";
-      authorLastNameTextbox.value = "";
-    }
-  }
-</script>
