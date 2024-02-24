@@ -1,9 +1,13 @@
 package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -19,6 +23,8 @@ public class Book {
     private Long id;
 
     @Column(name = "title")
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String title;
 
     @ManyToOne(fetch = FetchType.EAGER)
