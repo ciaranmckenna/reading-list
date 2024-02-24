@@ -8,11 +8,13 @@ import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.service.AuthorService;
 import com.ciaranmckenna.readinglistapp.service.BookService;
 import com.ciaranmckenna.readinglistapp.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -70,7 +72,9 @@ public class BookController {
     }
 
     @GetMapping("/registration")
-    public String showFormForAdd(Model model){
+    public String showFormForAdd(@Valid Model model){
+
+
         // Populate the model with the list of authors
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
@@ -86,7 +90,13 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String addBook(@ModelAttribute("book") Book book){
+    public String addBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                logger.debug(objectError.toString());
+            });
+            return "books/book-form";
+        }
         bookService.addBook(book);
         return "redirect:/books/list";
     }
@@ -99,7 +109,13 @@ public class BookController {
     }
 
     @PostMapping("/updateBook")
-    public String updateBook(@ModelAttribute("book") Book book) throws NotFoundException {
+    public String updateBook(@Valid @ModelAttribute("book") Book book, BindingResult bindingResult ) throws NotFoundException {
+        if (bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                logger.debug(objectError.toString());
+            });
+            return "books/book-update";
+        }
         bookService.updateBook(book);
         return "redirect:/books/list";
     }
