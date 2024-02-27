@@ -7,6 +7,10 @@ import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public class Mapper {
 
     public static AuthorRecord mapAuthorEntityToAuthorRecord(Author author) {
@@ -30,6 +34,17 @@ public class Mapper {
         return new CategoryRecord(category.getId(), category.getName());
     }
 
+    public static List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {
+        return authors.stream()
+                .map(Mapper::mapAuthorEntityToAuthorRecord)
+                .collect(Collectors.toList());
+    }
+
+    public static List<CategoryRecord> mapToCategoryRecordList(Optional<Category> categories){
+        return categories.stream()
+                .map(Mapper::mapCategoryEntityToCategoryRecord)
+                .collect(Collectors.toList());
+    }
     private Mapper() {
 
     }
