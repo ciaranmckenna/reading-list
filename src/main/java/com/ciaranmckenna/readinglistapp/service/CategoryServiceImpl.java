@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
         if (name !=null && !name.isEmpty()){
             categories = categoryRepository.findByNameIgnoreCase(name);
         } else return Collections.emptyList();
-    return mapToCategoryRecordList(categories);
+    return Mapper.mapToCategoryRecordList(categories);
     }
 
     @Override
@@ -42,12 +42,5 @@ public class CategoryServiceImpl implements CategoryService{
     public Category saveNewCategory(Category category) {
         return categoryRepository.save(category);
     }
-
-    // this should be refactored to a mapper class i think
-    private List<CategoryRecord> mapToCategoryRecordList(Optional<Category> categories){
-        return categories.stream()
-                .map(Mapper::mapCategoryEntityToCategoryRecord)
-                .collect(Collectors.toList());
-    }
-
+    
 }

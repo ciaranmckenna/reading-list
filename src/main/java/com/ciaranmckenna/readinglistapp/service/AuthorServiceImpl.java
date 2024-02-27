@@ -47,18 +47,12 @@ public class AuthorServiceImpl implements AuthorService {
             // If neither first name nor last name is provided, return all authors
             return Collections.emptyList();
         }
-        return mapToAuthorRecordList(authors);
+        return Mapper.mapToAuthorRecordList(authors);
     }
 
     @Override
     public Optional<Author> findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName) {
         return authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName);
-    }
-
-    private List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {
-        return authors.stream()
-                .map(Mapper::mapAuthorEntityToAuthorRecord)
-                .collect(Collectors.toList());
     }
 
     @Override
