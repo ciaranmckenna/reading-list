@@ -31,7 +31,7 @@ public class Mapper {
     }
 
     public static CategoryRecord mapCategoryEntityToCategoryRecord(Category category){
-        return new CategoryRecord(category.getId(), category.getName()); /// causing me to only return the first element
+        return new CategoryRecord(category.getId(), category.getName());
     }
 
     public static List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {

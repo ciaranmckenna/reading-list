@@ -3,6 +3,7 @@ package com.ciaranmckenna.readinglistapp.service;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dao.repository.CategoryRepository;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
+import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,23 @@ public class CategoryServiceImpl implements CategoryService{
     public Category saveNewCategory(Category category) {
         return categoryRepository.save(category);
     }
-    
+
+    @Override
+    public Category updateCategory(Category category) throws NotFoundException {
+        Optional<Category> existingId = categoryRepository.findById(category.getId());
+
+        if (existingId.isPresent()){
+            category.setName(category.getName());
+            return saveNewCategory(category);
+        }else{
+        // returning a default empty category - this line should never be reached
+            return new Category();
+        }
+    }
+
+    @Override
+    public Optional<Category> findById(Long categoryId) {
+        return categoryRepository.findById(categoryId);
+    }
+
 }
