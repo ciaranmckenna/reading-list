@@ -8,11 +8,13 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    List<CategoryRecord> findByCategoryRecordNameIgnoreCase(String name);
+    //List<CategoryRecord> findByCategoryRecordNameIgnoreCase(String name); // am i using this?
 
     Optional<Category> findByCategoryNameIgnoreCase(String name);
 
     List<Category> findAllCategories();
+
+    List<CategoryRecord> findAllCategoryRecords();
 
     Category saveNewCategory(Category category);
 }

@@ -13,6 +13,7 @@ public interface AuthorService {
 
     List<AuthorRecord> findAllAuthors();
 
+    // Used to help create a new entry hence return type being Author
     List<Author> findAll();
 
     Author findAuthorById(Long id) throws NotFoundException;

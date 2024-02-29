@@ -3,6 +3,7 @@ package com.ciaranmckenna.readinglistapp.controller;
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
+import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
 import com.ciaranmckenna.readinglistapp.service.AuthorService;
@@ -75,7 +76,7 @@ public class BookController {
     public String showFormForAdd(@Valid Model model){
 
 
-        // Populate the model with the list of authors
+        // Populate the model with the list of authors and categories that is required for adding
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
 

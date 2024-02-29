@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
+/*
 
     @Override
     public List<CategoryRecord> findByCategoryRecordNameIgnoreCase(String name) {
@@ -26,17 +26,24 @@ public class CategoryServiceImpl implements CategoryService{
         } else return Collections.emptyList();
     return Mapper.mapToCategoryRecordList(categories);
     }
+*/
 
     @Override
     public Optional<Category> findByCategoryNameIgnoreCase(String name){
         return categoryRepository.findByNameIgnoreCase(name);
     }
 
+    // used to retrieve entities
     @Override
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
 
+    @Override
+    public List<CategoryRecord> findAllCategoryRecords() {
+        List<Category> categories = findAllCategories();
+        return Mapper.mapToCategoryRecordList(categories);
+    }
 
     @Override
     public Category saveNewCategory(Category category) {

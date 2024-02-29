@@ -31,7 +31,7 @@ public class Mapper {
     }
 
     public static CategoryRecord mapCategoryEntityToCategoryRecord(Category category){
-        return new CategoryRecord(category.getId(), category.getName());
+        return new CategoryRecord(category.getId(), category.getName()); /// causing me to only return the first element
     }
 
     public static List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {
@@ -40,7 +40,7 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<CategoryRecord> mapToCategoryRecordList(Optional<Category> categories){
+    public static List<CategoryRecord> mapToCategoryRecordList(List<Category> categories){
         return categories.stream()
                 .map(Mapper::mapCategoryEntityToCategoryRecord)
                 .collect(Collectors.toList());
