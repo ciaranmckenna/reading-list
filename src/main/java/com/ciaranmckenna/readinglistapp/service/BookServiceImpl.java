@@ -74,14 +74,9 @@ public class BookServiceImpl implements BookService {
 
         // Check if the book title is not null or not blank
         if (book.getTitle() != null && !book.getTitle().isEmpty() && !book.getTitle().isBlank()) {
-            // check to see if title already exists
-            Optional<Book> existingTitle = bookRepository.findByTitleContainingIgnoreCase(book.getTitle());
 
-            if (existingTitle.isPresent()) {
-                return existingTitle.get();
-            } else {
-                return bookRepository.save(book);
-            }
+            // Allowing for possibility that book titles are not unique
+            return bookRepository.save(book);
         } else {
             // Handle case where book title is null or blank
             throw new IllegalArgumentException("Book title cannot be null or blank");
