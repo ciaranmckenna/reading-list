@@ -15,23 +15,18 @@
   <h3>Author Directory</h3>
   <hr>
 
-  <!--  Add a home button-->
-  <a th:href="@{/home}"
-     class="btn btn-primary btn-sm mb-3">
-    Home
-  </a>
-
-  <!--  Add an author button-->
-  <a th:href="@{/authors/registration}"
-     class="btn btn-primary btn-sm mb-3">
-    Add
-  </a>
-
-  <!--  Find a category button-->
-  <a th:href="@{/authors/search}"
-     class="btn btn-primary btn-sm mb-3">
-    Find
-  </a>
+  <!-- Buttons aligned to the right -->
+  <div class="d-flex justify-content-between mb-3">
+    <div>
+      <a th:href="@{/home}" class="btn btn-primary btn-sm">Home</a>
+      <a th:href="@{/books/registration}" class="btn btn-primary btn-sm">Add</a>
+      <a th:href="@{/books/search}" class="btn btn-primary btn-sm">Find</a>
+    </div>
+    <div>
+      <a th:href="@{/books/list}" class="btn btn-primary btn-sm">Books</a>
+      <a th:href="@{/Categories/list}" class="btn btn-primary btn-sm">Categories</a>
+    </div>
+  </div>
 
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
@@ -70,10 +65,17 @@
     </tbody>
   </table>
 
-  <hr>
-  <a th:href="@{/books/list}">Go to book's list</a>
-  <br>
-  <a th:href="@{/authors/list}">Go to author's list</a>
+  <div class="d-flex justify-content-between mb-3">
+    <div>
+      <a th:href="@{/home}" class="btn btn-primary btn-sm">Home</a>
+      <a th:href="@{/books/registration}" class="btn btn-primary btn-sm">Add</a>
+      <a th:href="@{/books/search}" class="btn btn-primary btn-sm">Find</a>
+    </div>
+    <div>
+      <a th:href="@{/books/list}" class="btn btn-primary btn-sm">Books</a>
+      <a th:href="@{/categories/list}" class="btn btn-primary btn-sm">Categories</a>
+    </div>
+  </div>
 </div>
 </body>
 </html>
