@@ -8,7 +8,6 @@ import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Mapper {
@@ -40,7 +39,7 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<CategoryRecord> mapToCategoryRecordList(Optional<Category> categories){
+    public static List<CategoryRecord> categoryListMappedToCategoryRecordList(List<Category> categories){
         return categories.stream()
                 .map(Mapper::mapCategoryEntityToCategoryRecord)
                 .collect(Collectors.toList());
