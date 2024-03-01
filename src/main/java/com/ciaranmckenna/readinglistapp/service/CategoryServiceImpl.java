@@ -17,17 +17,15 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
-/*
 
     @Override
-    public List<CategoryRecord> findByCategoryRecordNameIgnoreCase(String name) {
-        Optional<Category> categories;
+    public List<CategoryRecord> findByCategoryRecordNameContainingIgnoreCase(String name) { //  this should be a list
+        List<Category> categories;
         if (name !=null && !name.isEmpty()){
-            categories = categoryRepository.findByNameIgnoreCase(name);
+            categories = categoryRepository.findByNameContainingIgnoreCase(name);
         } else return Collections.emptyList();
-    return Mapper.mapToCategoryRecordList(categories);
+    return Mapper.categoryListMappedToCategoryRecordList(categories);
     }
-*/
 
     @Override
     public Optional<Category> findByCategoryNameIgnoreCase(String name){
@@ -43,12 +41,17 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public List<CategoryRecord> findAllCategoryRecords() {
         List<Category> categories = findAllCategories();
-        return Mapper.mapToCategoryRecordList(categories);
+        return Mapper.categoryListMappedToCategoryRecordList(categories);
     }
 
     @Override
     public Category saveNewCategory(Category category) {
-        return categoryRepository.save(category);
+        Optional<Category> existingCategory = findByCategoryNameIgnoreCase(category.getName());
+        if (existingCategory.isPresent()){
+            return existingCategory.get();
+        }else {
+            return categoryRepository.save(category);
+        }
     }
 
     @Override
@@ -67,6 +70,11 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Optional<Category> findById(Long categoryId) {
         return categoryRepository.findById(categoryId);
+    }
+
+    @Override
+    public void deleteById(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 
 }

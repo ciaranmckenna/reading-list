@@ -56,8 +56,8 @@
                 </a>
             </td>
         </tr>
-        <tr th:unless="${category != null}">
-            <td colspan="3">Category not found</td>
+        <tr th:if="${#lists.isEmpty(category)}">
+            <td colspan="3">No such category found</td>
         </tr>
         </tbody>
     </table>

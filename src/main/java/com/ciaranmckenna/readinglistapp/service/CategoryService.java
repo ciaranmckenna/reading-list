@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    //List<CategoryRecord> findByCategoryRecordNameIgnoreCase(String name); // am i using this?
+    List<CategoryRecord> findByCategoryRecordNameContainingIgnoreCase(String name);
 
     Optional<Category> findByCategoryNameIgnoreCase(String name);
 
@@ -22,4 +22,6 @@ public interface CategoryService {
     Category updateCategory(Category category) throws NotFoundException;
 
     Optional<Category> findById(Long categoryId);
+
+    void deleteById(Long categoryId);
 }
