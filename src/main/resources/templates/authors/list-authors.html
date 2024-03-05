@@ -31,16 +31,27 @@
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Author</th>
+      <th>Books</th>
       <th>Action</th>
     </tr>
     </thead>
 
     <tbody>
     <tr th:each="tempAuthor : ${author}">
-      <td th:text="${tempAuthor.firstName }" ></td>
-      <td th:text="${tempAuthor.lastName }" ></td>
+
+      <td th:text="${tempAuthor.firstName + ' ' + tempAuthor.lastName}"></td>
+
+      <td>
+        <ul style="list-style-type: none;">
+          <li
+                  th:if="${not #lists.isEmpty(tempAuthor.books)}" th:each="book : ${tempAuthor.books}" th:text="${book}">
+          </li>
+        </ul>
+      </td>
+
+<!--      <td th:text="${tempAuthor.firstName }" ></td>-->
+<!--      <td th:text="${tempAuthor.lastName }" ></td>-->
 
       <td>
         <!--add update button link-->
