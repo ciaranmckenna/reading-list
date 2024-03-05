@@ -1,3 +1,5 @@
 package com.ciaranmckenna.readinglistapp.dto;
 
-public record AuthorRecord(Long id, String firstName, String lastName) {}
+import java.util.List;
+
+public record AuthorRecord(Long id, String firstName, String lastName, List<String> books) {}

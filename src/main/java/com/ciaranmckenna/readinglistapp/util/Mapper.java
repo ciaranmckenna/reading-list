@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 public class Mapper {
 
     public static AuthorRecord mapAuthorEntityToAuthorRecord(Author author) {
-        return new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName());
+        List<String> books = author.getBooks().stream()
+                .map(Book::getTitle)
+                .collect(Collectors.toList());
+        return new AuthorRecord(author.getId(), author.getFirstName(), author.getLastName(), books);
     }
 
     public static BookRecord mapBookEntityToBookRecord(Book book) {
