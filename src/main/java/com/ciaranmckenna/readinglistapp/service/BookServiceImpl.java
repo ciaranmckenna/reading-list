@@ -118,7 +118,6 @@ public class BookServiceImpl implements BookService {
 
     private void retrieveCategoryData(Book book) {
         // Retrieve category data from the form
-        //String categoryName = book.getCategory().getName();
         Optional<Category> category = categoryService.findByCategoryNameIgnoreCase(book.getCategory().getName());
         if (category.isPresent()) {
             book.setCategory(category.get());

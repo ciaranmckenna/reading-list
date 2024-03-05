@@ -7,6 +7,7 @@ import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,7 @@ public class Mapper {
     public static List<CategoryRecord> categoryListMappedToCategoryRecordList(List<Category> categories){
         return categories.stream()
                 .map(Mapper::mapCategoryEntityToCategoryRecord)
+                .sorted(Comparator.comparing(CategoryRecord::name))
                 .collect(Collectors.toList());
     }
     private Mapper() {

@@ -56,7 +56,7 @@ public class BookController {
     }
 
     @GetMapping("/title")
-    public String getBookByTitleLike(@RequestParam(required = false) String title, Model model ) {
+    public String getBookByTitleContaining(@RequestParam(required = false) String title, Model model ) {
         // allow parameterless GET request for /title to return all records
         if (title.isEmpty()) {
             return "books/list-books";

@@ -40,22 +40,6 @@ public class CategoryController {
         return "categories/list-categories";
     }
 
-    /*
-    @GetMapping("/name")
-    public String findAuthorByNameContaining(@RequestParam String firstName, @RequestParam String lastName, Model model){
-
-        if (firstName.isEmpty() && lastName.isEmpty()) {
-            firstName = "";
-            lastName = "";
-
-        }
-        List<AuthorRecord> authorNameContaining = authorService.findByAuthorNameContainingIgnoreCase(firstName, lastName);
-        model.addAttribute("author", authorNameContaining);
-        return "authors/list-authors";
-    }
-    *
-    }
-    * */
     @GetMapping("/search")
     public String showFormForSearch(Model model){
         Category category = new Category();

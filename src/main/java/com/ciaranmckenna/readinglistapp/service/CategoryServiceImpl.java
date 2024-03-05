@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService{
     public List<CategoryRecord> findByCategoryRecordNameContainingIgnoreCase(String name) { //  this should be a list
         List<Category> categories;
         if (name !=null && !name.isEmpty()){
-            categories = categoryRepository.findByNameContainingIgnoreCase(name);
+            categories = categoryRepository.findByNameContainingIgnoreCaseOrderByNameAsc(name);
         } else return Collections.emptyList();
     return Mapper.categoryListMappedToCategoryRecordList(categories);
     }
@@ -38,9 +39,25 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.findAll();
     }
 
+    /*
+    *  @Override
+    public List<BookRecord> findAllBooks(){
+        return bookRepository.findAll()
+                .stream()
+                .map(Mapper::mapBookEntityToBookRecord)
+                .sorted(Comparator.comparing(BookRecord::title))
+                .toList();
+    }
+    *
+    * */
+
     @Override
     public List<CategoryRecord> findAllCategoryRecords() {
         List<Category> categories = findAllCategories();
+        categories.stream()
+                .map(Mapper::mapCategoryEntityToCategoryRecord)
+                .sorted(Comparator.comparing(CategoryRecord::name))
+                .toList();
         return Mapper.categoryListMappedToCategoryRecordList(categories);
     }
 
