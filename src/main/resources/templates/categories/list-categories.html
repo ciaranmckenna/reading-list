@@ -18,8 +18,8 @@
     <div class="d-flex justify-content-between mb-3">
         <div>
             <a th:href="@{/home}" class="btn btn-primary btn-sm">Home</a>
-            <a th:href="@{/books/registration}" class="btn btn-primary btn-sm">Add</a>
-            <a th:href="@{/books/search}" class="btn btn-primary btn-sm">Find</a>
+            <a th:href="@{/categories/registration}" class="btn btn-primary btn-sm">Add</a>
+            <a th:href="@{/categories/search}" class="btn btn-primary btn-sm">Find</a>
         </div>
         <div>
             <a th:href="@{/books/list}" class="btn btn-primary btn-sm">Books</a>
@@ -31,6 +31,8 @@
         <thead class="table-dark">
             <tr>
                 <th>Category</th>
+                <th>Book</th>
+                <th>Author</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -38,6 +40,18 @@
         <tbody>
         <tr th:each="tempCategory : ${category}">
             <td th:text="${tempCategory.name}"></td>
+            <td>
+                <ul style="list-style-type: none;">
+                    <li th:each="title : ${tempCategory.titles}" th:text="${title}"></li>
+                </ul>
+            </td>
+            <td>
+                <ul style="list-style-type: none;">
+                    <li th:if="${not #lists.isEmpty(tempCategory.authorFirstNames)}" th:each="index : ${#numbers.sequence(0, tempCategory.authorFirstNames.size() - 1)}">
+                        <span th:text="${tempCategory.authorFirstNames[index] + ' ' + tempCategory.authorLastNames[index]}"></span>
+                    </li>
+                </ul>
+            </td>
 
             <!--add update button link-->
             <td>
@@ -62,8 +76,8 @@
     <div class="d-flex justify-content-between mb-3">
         <div>
             <a th:href="@{/home}" class="btn btn-primary btn-sm">Home</a>
-            <a th:href="@{/books/registration}" class="btn btn-primary btn-sm">Add</a>
-            <a th:href="@{/books/search}" class="btn btn-primary btn-sm">Find</a>
+            <a th:href="@{/categories/registration}" class="btn btn-primary btn-sm">Add</a>
+            <a th:href="@{/categories/search}" class="btn btn-primary btn-sm">Find</a>
         </div>
         <div>
             <a th:href="@{/books/list}" class="btn btn-primary btn-sm">Books</a>

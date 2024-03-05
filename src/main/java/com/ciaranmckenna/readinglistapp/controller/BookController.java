@@ -75,7 +75,6 @@ public class BookController {
     @GetMapping("/registration")
     public String showFormForAdd(@Valid Model model){
 
-
         // Populate the model with the list of authors and categories that is required for adding
         List<Author> authors = authorService.findAll();
         model.addAttribute("authors", authors);
