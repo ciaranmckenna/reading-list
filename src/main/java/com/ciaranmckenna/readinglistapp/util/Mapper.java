@@ -30,7 +30,19 @@ public class Mapper {
     }
 
     public static CategoryRecord mapCategoryEntityToCategoryRecord(Category category){
-        return new CategoryRecord(category.getId(), category.getName());
+        List<String> titles = category.getBooks().stream()
+                .map(Book::getTitle)
+                .collect(Collectors.toList());
+
+        List<String> authorFirstNames = category.getBooks().stream()
+                .map(book -> book.getAuthor().getFirstName())
+                .collect(Collectors.toList());
+
+        List<String> authorLastNames = category.getBooks().stream()
+                .map(book -> book.getAuthor().getLastName())
+                .collect(Collectors.toList());
+
+        return new CategoryRecord(category.getId(), category.getName(), titles, authorFirstNames, authorLastNames);
     }
 
     public static List<AuthorRecord> mapToAuthorRecordList(List<Author> authors) {
