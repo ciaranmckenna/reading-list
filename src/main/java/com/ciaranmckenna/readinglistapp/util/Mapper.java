@@ -3,15 +3,23 @@ package com.ciaranmckenna.readinglistapp.util;
 import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Book;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
+import com.ciaranmckenna.readinglistapp.dao.entity.Role;
 import com.ciaranmckenna.readinglistapp.dto.AuthorRecord;
 import com.ciaranmckenna.readinglistapp.dto.BookRecord;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Mapper {
+
+    private Mapper() {
+
+    }
 
     public static AuthorRecord mapAuthorEntityToAuthorRecord(Author author) {
         List<String> books = author.getBooks().stream()
@@ -54,14 +62,21 @@ public class Mapper {
                 .map(Mapper::mapAuthorEntityToAuthorRecord)
                 .collect(Collectors.toList());
     }
-
     public static List<CategoryRecord> categoryListMappedToCategoryRecordList(List<Category> categories){
         return categories.stream()
                 .map(Mapper::mapCategoryEntityToCategoryRecord)
                 .sorted(Comparator.comparing(CategoryRecord::name))
                 .collect(Collectors.toList());
     }
-    private Mapper() {
 
+    public static Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role tempRole : roles) {
+            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getName());
+            authorities.add(tempAuthority);
+        }
+
+        return authorities;
     }
 }

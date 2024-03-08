@@ -44,7 +44,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-
     public User(String userName, String password, boolean enabled) {
         this.userName = userName;
         this.password = password;

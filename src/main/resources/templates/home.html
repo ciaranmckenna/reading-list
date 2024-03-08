@@ -15,20 +15,24 @@
     <h3>Reading List</h3>
     <hr>
 
-    <a th:href="@{/books/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Books
-    </a>
+    <style>
+        /* Custom CSS to align logout button to the right */
+        .logout-btn {
+            margin-top: 0px; /* Adjust as needed */
+            margin-left: auto; /* Pushes the button to the right */
+        }
+    </style>
 
-    <a th:href="@{/authors/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Authors
-    </a>
-
-    <a th:href="@{/categories/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Categories
-    </a>
+    <div class="row">
+        <div class="col">
+            <a th:href="@{/books/list}" class="btn btn-primary btn-sm mb-3">Books</a>
+            <a th:href="@{/authors/list}" class="btn btn-primary btn-sm mb-3">Authors</a>
+            <a th:href="@{/categories/list}" class="btn btn-primary btn-sm mb-3">Categories</a>
+        </div>
+        <div class="col-auto">
+            <a th:href="@{/logout/showMyLoginPage}" class="btn btn-danger btn-sm mb-3" onclick="if (!(confirm('Are you sure you want to logout?'))) return false">Logout</a>
+        </div>
+    </div>
 
 </div>
 </body>

@@ -6,6 +6,7 @@ import com.ciaranmckenna.readinglistapp.dao.entity.User;
 import com.ciaranmckenna.readinglistapp.dao.repository.RoleRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.UserRepository;
 import com.ciaranmckenna.readinglistapp.user.WebUser;
+import com.ciaranmckenna.readinglistapp.util.Mapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final RoleRepository roleRepository;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -66,13 +67,13 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
 
-        Collection<SimpleGrantedAuthority> authorities = mapRolesToAuthorities(user.getRoles());
+        Collection<SimpleGrantedAuthority> authorities = Mapper.mapRolesToAuthorities(user.getRoles());
 
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 authorities);
     }
 
-    private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    /*private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Role tempRole : roles) {
@@ -81,5 +82,5 @@ public class UserServiceImpl implements UserService {
         }
 
         return authorities;
-    }
+    }*/
 }

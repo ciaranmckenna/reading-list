@@ -40,7 +40,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/showMyLoginPage")
+                                .loginPage("/login/showMyLoginPage")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .successHandler(customAuthenticationSuccessHandler)
                                 .permitAll()
