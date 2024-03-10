@@ -1,4 +1,4 @@
-package com.ciaranmckenna.readinglistapp.user;
+package com.ciaranmckenna.readinglistapp.dto.user;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

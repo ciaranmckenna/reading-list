@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import com.ciaranmckenna.readinglistapp.dao.entity.User;
 import com.ciaranmckenna.readinglistapp.service.UserService;
-import com.ciaranmckenna.readinglistapp.user.WebUser;
+import com.ciaranmckenna.readinglistapp.dto.user.WebUser;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 

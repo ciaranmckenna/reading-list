@@ -1,11 +1,10 @@
 package com.ciaranmckenna.readinglistapp.service;
 
-import com.ciaranmckenna.readinglistapp.dao.entity.Role;
 import com.ciaranmckenna.readinglistapp.dao.entity.User;
 
 import com.ciaranmckenna.readinglistapp.dao.repository.RoleRepository;
 import com.ciaranmckenna.readinglistapp.dao.repository.UserRepository;
-import com.ciaranmckenna.readinglistapp.user.WebUser;
+import com.ciaranmckenna.readinglistapp.dto.user.WebUser;
 import com.ciaranmckenna.readinglistapp.util.Mapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
