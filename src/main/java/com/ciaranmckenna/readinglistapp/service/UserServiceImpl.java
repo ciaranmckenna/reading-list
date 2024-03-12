@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(webUser.getEmail());
         user.setEnabled(true);
 
-        // give user default role of "employee"
+        // give user default role of "employee" --- i have no use for this in my project therefore i should consider removing if safe
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_EMPLOYEE")));
 
         // save user in the database
@@ -71,14 +71,4 @@ public class UserServiceImpl implements UserService {
                 authorities);
     }
 
-    /*private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role tempRole : roles) {
-            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getName());
-            authorities.add(tempAuthority);
-        }
-
-        return authorities;
-    }*/
 }

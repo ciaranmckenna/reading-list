@@ -20,7 +20,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         userService = theUserService;
     }
 
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse
             response, Authentication authentication)
