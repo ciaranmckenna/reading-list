@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Registration Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2 class="mt-5 mb-4">User registered successfully!</h2>
+
+    <!-- Display user information -->
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>User name:</strong> <span th:text="${webUser.userName}"></span></li>
+        <li class="list-group-item"><strong>First name:</strong> <span th:text="${webUser.firstName}"></span></li>
+        <li class="list-group-item"><strong>Last name:</strong> <span th:text="${webUser.lastName}"></span></li>
+        <li class="list-group-item"><strong>Email:</strong> <span th:text="${webUser.email}"></span></li>
+    </ul>
+
+    <hr>
+
+    <a href="@{/login/showMyLoginPage}" class="btn btn-primary">Login with new user name</a>
+</div>
+
+</body>
+
+</html>

@@ -1,24 +1,25 @@
 package com.ciaranmckenna.readinglistapp.dao.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "review")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Review {
+@Table(name = "role")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "name")
+    private String name;
 
-    public Review(String comment) {
-        this.comment = comment;
-    }
 }

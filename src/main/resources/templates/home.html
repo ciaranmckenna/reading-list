@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Reading List</title>
@@ -7,29 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link th:href="@{/style.css}" rel="stylesheet">
+
+    <style>
+        /* Custom CSS for the green box */
+        .green-box {
+            background-color: #28a745; /* Green color */
+            color: white; /* White text */
+            padding: 5px; /* Padding around the content */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 5px; /* Adjust as needed */
+            display: inline-block; /* Shrink-wrap around the content */
+            line-height: 1; /* Adjust line height */
+        }
+        .green-box p {
+            margin-bottom: 0; /* Remove margin bottom for the paragraph */
+    </style>
 </head>
 <body>
 
 <div class="container">
 
     <h3>Reading List</h3>
+
     <hr>
+    <!--    displaying username of logged in user in a Green box-->
+    <div class="green-box">
+        <p>
+            User: <span sec:authentication="principal.username"></span>
+        </p>
+    </div>
 
-    <a th:href="@{/books/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Books
-    </a>
+    <style>
+        /* Custom CSS to align logout button to the right */
+        .logout-btn {
+            margin-top: 0px; /* Adjust as needed */
+            margin-left: auto; /* Pushes the button to the right */
+        }
+    </style>
 
-    <a th:href="@{/authors/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Authors
-    </a>
-
-    <a th:href="@{/categories/list}"
-       class="btn btn-primary btn-sm mb-3">
-        Categories
-    </a>
-
+    <div class="row">
+        <div class="col">
+            <a th:href="@{/books/list}" class="btn btn-primary btn-sm mb-3">Books</a>
+            <a th:href="@{/authors/list}" class="btn btn-primary btn-sm mb-3">Authors</a>
+            <a th:href="@{/categories/list}" class="btn btn-primary btn-sm mb-3">Categories</a>
+        </div>
+        <div class="col-auto">
+            <form action="#" th:action="@{/logout}" method="POST">
+                <input type="submit" value="Logout" class="btn btn-danger btn-sm mb-3" onclick="if (!(confirm('Are you sure you want to logout?'))) return false">
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
