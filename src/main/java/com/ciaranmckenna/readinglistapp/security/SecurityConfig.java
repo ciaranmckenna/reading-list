@@ -27,31 +27,4 @@ public class SecurityConfig {
         return auth;
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
-
-        http.authorizeHttpRequests(configurer ->
-                        configurer
-                                .requestMatchers("/").hasRole("EMPLOYEE")
-                                .requestMatchers("/leaders/**").hasRole("MANAGER")
-                                .requestMatchers("/systems/**").hasRole("ADMIN")
-                                .requestMatchers("/register/**").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .formLogin(form ->
-                        form
-                                .loginPage("/login/showMyLoginPage")
-                                .loginProcessingUrl("/authenticateTheUser")
-                                .successHandler(customAuthenticationSuccessHandler)
-                                .permitAll()
-                )
-                .logout(logout -> logout.permitAll()
-                )
-                .exceptionHandling(configurer ->
-                        configurer.accessDeniedPage("/access-denied")
-                );
-
-        return http.build();
-    }
-
 }
