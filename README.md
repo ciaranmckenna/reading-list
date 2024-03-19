@@ -68,5 +68,9 @@ Edit or delete books from your reading list.
 
 Access it by navigating to http://localhost:8080 in your web browser.
 
+# Screen Recording
+
+[Application in Action](https://github.com/ciaranmckenna/reading-list/files/14652734/Screen.Recording.2024-03-19.at.15.21.25.mov.zip)
+
 ## Happy reading! 📚
 
