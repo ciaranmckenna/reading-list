@@ -32,8 +32,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers( "/register/**").permitAll()
-                                .requestMatchers( "/static/favicon.ico").permitAll()
+                                .requestMatchers("/register/**", "/images/favicon.ico").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

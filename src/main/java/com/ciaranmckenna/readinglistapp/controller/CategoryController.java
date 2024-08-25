@@ -1,6 +1,5 @@
 package com.ciaranmckenna.readinglistapp.controller;
 
-import com.ciaranmckenna.readinglistapp.dao.entity.Author;
 import com.ciaranmckenna.readinglistapp.dao.entity.Category;
 import com.ciaranmckenna.readinglistapp.dto.CategoryRecord;
 import com.ciaranmckenna.readinglistapp.exceptions.NotFoundException;
